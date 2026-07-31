@@ -46,6 +46,14 @@ Try prompts such as:
 - “I want to improve my Swedish listening for everyday conversations.”
 - “I am a beginner and want a simple speaking plan.”
 - “Give me good Swedish videos for B1 reading practice.”
+- “I want a 2-week plan for learning Swedish for work.”
+- “I am A2 and want to improve my vocabulary before moving to Sweden.”
+
+A good response usually includes:
+
+- a short level check or suggestion,
+- 3–5 video or playlist recommendations,
+- and one clear next step for the learner.
 
 ## Layout
 

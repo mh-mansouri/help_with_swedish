@@ -46,6 +46,14 @@ Testa frågor som:
 - “Jag vill bli bättre på att förstå vardagligt svenska.”
 - “Jag är nybörjare och vill ha en enkel plan för att prata.”
 - “Ge mig bra svenska videor för läsning på nivå B1.”
+- “Jag vill ha en plan på två veckor för att lära mig svenska inför jobbet.”
+- “Jag är på A2-nivå och vill förbättra mitt ordförråd inför en flytt till Sverige.”
+
+En bra respons brukar innehålla:
+
+- en kort nivåbedömning eller förslag,
+- 3–5 videor eller spellistor,
+- och ett tydligt nästa steg för användaren.
 
 ## Struktur
 
