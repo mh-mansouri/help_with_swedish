@@ -37,7 +37,11 @@ Alternativ B — paketera den lokalt:
 
 ```bash
 python package_skill.py
+python package_skill.py --check
+python package_skill.py --install --skills-dir <sökväg-till-skills-mapp>
 ```
+
+Kommandot `--check` kontrollerar att alla nödvändiga filer finns innan du använder paketet.
 
 ## Hur du använder den
 
@@ -55,6 +59,22 @@ En bra respons brukar innehålla:
 - en kort nivåbedömning eller förslag,
 - 3–5 videor eller spellistor,
 - och ett tydligt nästa steg för användaren.
+
+Ett starkt exempel ser ut så här:
+
+> “Du verkar ligga runt A2. Ett bra nästa steg är lyssningsövningar och korta pratövningar. Jag rekommenderar tre korta klipp och en enkel daglig rutin.”
+
+## Vad den hjälper till med
+
+- Att välja ett bra nästa steg i svenskstudier
+- Att matcha användaren till en nivåanpassad väg
+- Att föreslå praktiska YouTube-resurser utan att överväldiga användaren
+
+## Vad den inte ersätter
+
+- En formell språktestning
+- En lärarledd nivåplacering
+- En garanterad CEFR-betyg
 
 ## Struktur
 

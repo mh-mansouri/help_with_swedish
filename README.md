@@ -37,7 +37,11 @@ Option B — package it locally:
 
 ```bash
 python package_skill.py
+python package_skill.py --check
+python package_skill.py --install --skills-dir <path-to-skills-folder>
 ```
+
+The `--check` command validates that the required skill files are present before you use the bundle.
 
 ## Use it
 
@@ -55,6 +59,22 @@ A good response usually includes:
 - a short level check or suggestion,
 - 3–5 video or playlist recommendations,
 - and one clear next step for the learner.
+
+A strong example looks like this:
+
+> “You seem to be around A2. A good next step is listening practice and short speaking drills. I recommend three short clips and one daily routine.”
+
+## What it helps with
+
+- Choosing a good next step for Swedish learning
+- Matching the learner to a level-appropriate path
+- Suggesting practical YouTube resources without overwhelming the learner
+
+## What it does not replace
+
+- A formal language assessment
+- A teacher-led placement test
+- A guaranteed CEFR score
 
 ## Layout
 
