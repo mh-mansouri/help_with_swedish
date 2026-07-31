@@ -1,5 +1,7 @@
 # Swedish YouTube Mentor
 
+English · [Svenska](README.sv.md) · [فارسی](README.fa.md)
+
 A Claude Skill for helping Swedish learners choose level-appropriate YouTube clips and learning paths.
 
 ## Overview

@@ -1,5 +1,7 @@
 # Hjälp med svenska
 
+[Svenska](README.sv.md) · [English](README.md) · [فارسی](README.fa.md)
+
 En Claude Skill som hjälper människor att lära sig svenska genom att föreslå YouTube-klipp som passar deras nivå och mål.
 
 ## Översikt
