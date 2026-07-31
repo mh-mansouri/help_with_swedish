@@ -6,9 +6,17 @@ En Claude Skill som hjälper människor att hitta YouTube-klipp som passar deras
 
 Många får svårt att välja rätt material när de lär sig ett nytt språk. Den här skillen gör det enklare genom att ge korta, konkreta förslag istället för slumpmässiga videor.
 
+## Använd den på 30 sekunder
+
+1. Ladda ner [hjälp_om_svenska.skill](hjälp_om_svenska.skill).
+2. Öppna den i Claude.
+3. Fråga till exempel: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.”
+
 ## Demo
 
 En användare skriver: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.” Skillen svarar med en kort plan, några relevanta klipp och ett tydligt nästa steg.
+
+![Demo förhandsvisning](https://via.placeholder.com/800x320.png?text=Hj%C3%A4lp+med+svenska+Demo)
 
 ## Vad den gör
 
