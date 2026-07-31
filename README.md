@@ -48,6 +48,7 @@ Try prompts such as:
 - “Give me good Swedish videos for B1 reading practice.”
 - “I want a 2-week plan for learning Swedish for work.”
 - “I am A2 and want to improve my vocabulary before moving to Sweden.”
+- “I think I’m intermediate at Swedish, but I’m not sure where I really belong.”
 
 A good response usually includes:
 

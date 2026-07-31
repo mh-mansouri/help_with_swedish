@@ -48,6 +48,7 @@ Testa frågor som:
 - “Ge mig bra svenska videor för läsning på nivå B1.”
 - “Jag vill ha en plan på två veckor för att lära mig svenska inför jobbet.”
 - “Jag är på A2-nivå och vill förbättra mitt ordförråd inför en flytt till Sverige.”
+- “Jag tror att jag är intermediate i svenska, men jag är inte säker på var jag egentligen hör hemma.”
 
 En bra respons brukar innehålla:
 
