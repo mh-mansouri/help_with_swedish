@@ -1,21 +1,67 @@
-# Swedish YouTube Mentor
+# Help with Swedish — a Claude Skill
 
 English · [Svenska](README.sv.md) · [فارسی](README.fa.md)
 
-A Claude Skill for helping Swedish learners choose level-appropriate YouTube clips and learning paths.
+A Claude Skill for helping Swedish learners find practical, level-appropriate YouTube clips and build a simple learning path.
 
-## Overview
+Most language-learning advice is either too vague or too overwhelming. This skill helps by asking what the learner wants to improve, what level they are at, and then suggesting focused resources instead of random videos.
 
-This repository packages the skill and supporting reference material for recommending Swedish learning resources by CEFR level and skill area.
+## Demo
+
+A learner says: “I am A2 and want to improve my speaking before a trip to Sweden.” The skill responds with a short plan, a few good video options, and a clearer next step.
+
+## What it does
+
+- Picks a learning path based on level, goal, and skill area.
+- Recommends YouTube clips for listening, reading, writing, and speaking.
+- Prioritizes practical channels such as Peter SFI, Lätt Svenska med Oskar, UR Play, and Swedish Shadowing.
+- Keeps guidance short, encouraging, and focused on one small step at a time.
+
+## Why it exists
+
+Many learners waste time watching unrelated videos or choosing content that is too hard or too easy. This skill helps them avoid that by offering manageable recommendations and a realistic path forward.
+
+## Install
+
+Option A — one file: download [hjälp_om_svenska.skill](hjälp_om_svenska.skill) and open it in Claude.
+
+Option B — package it locally:
+
+```bash
+python package_skill.py
+```
+
+## Use it
+
+Try prompts such as:
+
+- “I want to improve my Swedish listening for everyday conversations.”
+- “I am a beginner and want a simple speaking plan.”
+- “Give me good Swedish videos for B1 reading practice.”
 
 ## Layout
 
 - hjälp_om_svenska/SKILL.md — the skill instructions
-- hjälp_om_svenska/references/ — supporting reference files
+- hjälp_om_svenska/references/ — reference files with channel and speaking examples
 - hjälp_om_svenska.skill — the packaged skill bundle
-- references/ — repository-level reference material (legacy location)
+- package_skill.py — builds the bundle
 
-## Notes
+## Build
 
-- The skill content is intentionally kept in its own folder so it can be packaged cleanly.
-- The included references provide curated channel suggestions and speaking-clips examples.
+Run:
+
+```bash
+python package_skill.py
+```
+
+## Contributing
+
+Improvements are welcome. If you have better channel suggestions, clearer examples, or stronger guidance, feel free to contribute.
+
+## License
+
+This project is released under the MIT License.
+
+## About
+
+This repository packages a Claude Skill for Swedish learners who want practical, level-based recommendations without feeling overwhelmed.
