@@ -8,8 +8,8 @@ This repository packages the skill and supporting reference material for recomme
 
 ## Layout
 
-- swedish-youtube-mentor/SKILL.md — the skill instructions
-- swedish-youtube-mentor/references/ — supporting reference files
+- hjälp_om_svenska/SKILL.md — the skill instructions
+- hjälp_om_svenska/references/ — supporting reference files
 - hjälp_om_svenska.skill — the packaged skill bundle
 - references/ — repository-level reference material (legacy location)
 

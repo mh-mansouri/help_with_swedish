@@ -3,7 +3,7 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-SKILL_DIR = ROOT / "swedish-youtube-mentor"
+SKILL_DIR = ROOT / "hjälp_om_svenska"
 BUNDLE = ROOT / "hjälp_om_svenska.skill"
 
 
