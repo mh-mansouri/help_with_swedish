@@ -6,9 +6,17 @@ A Claude Skill for helping Swedish learners find practical, level-appropriate Yo
 
 Most language-learning advice is either too vague or too overwhelming. This skill helps by asking what the learner wants to improve, what level they are at, and then suggesting focused resources instead of random videos.
 
+## Use it in 30 seconds
+
+1. Download [hjälp_om_svenska.skill](hjälp_om_svenska.skill).
+2. Open it in Claude.
+3. Ask for a learning plan, for example: “I am A2 and want to improve my speaking before a trip to Sweden.”
+
 ## Demo
 
 A learner says: “I am A2 and want to improve my speaking before a trip to Sweden.” The skill responds with a short plan, a few good video options, and a clearer next step.
+
+![Demo preview](https://via.placeholder.com/800x320.png?text=Help+with+Swedish+Demo)
 
 ## What it does
 
