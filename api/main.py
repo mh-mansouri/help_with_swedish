@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 
 from data import CHANNELS, LEVELS, PODCASTS, SPEAKING_CLIPS
 
@@ -8,6 +9,13 @@ app = FastAPI(
     title="Help with Swedish API",
     description="Level-appropriate YouTube channels, podcasts, and speaking clips for Swedish learners.",
     version="0.1.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["GET"],
+    allow_headers=["*"],
 )
 
 
