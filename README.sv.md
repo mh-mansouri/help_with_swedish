@@ -14,11 +14,32 @@ Se hela texten i [universal-prompt.md](universal-prompt.md) (samma innehåll som
 
 ## Installera som en permanent Claude Skill
 
-Vill du slippa klistra in texten varje gång och istället få den att aktiveras automatiskt i Claude?
+Vill du slippa klistra in texten varje gång och istället få den att aktiveras automatiskt i Claude? Detta kräver ett Claude Pro-, Max-, Team- eller Enterprise-konto — Skills finns inte på gratisplanen.
 
 1. Ladda ner [swedish_mentor.skill](swedish_mentor.skill).
-2. Öppna den i Claude.
-3. Fråga till exempel: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.”
+2. På [claude.ai](https://claude.ai), klicka på ditt namn längst ner till vänster och välj **Settings**. Öppna sidan **Skills** under Customize:
+
+   ![Inställningsmeny med Skills markerat under Customize](assets/install-steps/1-settings-skills.png)
+
+3. Klicka på **Add skill**, sedan **Upload a skill**:
+
+   ![Add skill-meny med alternativen Create with Claude, Write skill instructions och Upload a skill](assets/install-steps/2-add-skill-menu.png)
+
+4. Dra den nedladdade filen `swedish_mentor.skill` till uppladdningsrutan (eller klicka för att bläddra) och bekräfta:
+
+   ![Upload skill-dialog med ett dra-och-släpp-område](assets/install-steps/3-upload-dialog.png)
+
+5. Starta en ny chatt och fråga till exempel: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.”
+
+Vill du bygga paketet själv istället för att använda den färdiga filen?
+
+```bash
+python package_skill.py
+python package_skill.py --check
+python package_skill.py --install --skills-dir <sökväg-till-skills-mapp>
+```
+
+Kommandot `--check` kontrollerar att alla nödvändiga filer finns innan du använder paketet.
 
 ## Demo
 
@@ -45,20 +66,6 @@ Samma rekommendationer finns också som ett REST API, driftsatt på Render:
 - Interaktiv dokumentation: https://help-with-swedish-api.onrender.com/docs
 
 Körs på en gratisinstans, så den stängs av vid inaktivitet — första anropet efter ett tag kan ta ~50 sekunder. Se [api/README.md](api/README.md) för endpoints och lokal installation.
-
-## Installera
-
-Alternativ A — en fil: ladda ner [swedish_mentor.skill](swedish_mentor.skill) och öppna den i Claude.
-
-Alternativ B — paketera den lokalt:
-
-```bash
-python package_skill.py
-python package_skill.py --check
-python package_skill.py --install --skills-dir <sökväg-till-skills-mapp>
-```
-
-Kommandot `--check` kontrollerar att alla nödvändiga filer finns innan du använder paketet.
 
 ## Hur du använder den
 
@@ -99,6 +106,7 @@ Ett starkt exempel ser ut så här:
 - swedish_mentor/SKILL.md — instruktionerna för skillen
 - swedish_mentor/references/ — referensfiler med kanaler, poddar och exempel
 - swedish_mentor.skill — den paketerade skillfilen
+- assets/install-steps/ — skärmdumpar för installationsguiden
 - package_skill.py — bygger paketet
 
 ## Bygg

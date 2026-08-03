@@ -79,11 +79,32 @@ This is the same content as [universal-prompt.md](universal-prompt.md) — use w
 
 ## Install as a persistent Claude Skill
 
-Prefer a one-time setup that auto-activates in Claude instead of copy-pasting each time? Use the packaged Skill:
+Prefer a one-time setup that auto-activates in Claude instead of copy-pasting each time? Use the packaged Skill. This needs a Claude Pro, Max, Team, or Enterprise plan — Skills aren't available on the free plan.
 
 1. Download [swedish_mentor.skill](swedish_mentor.skill).
-2. Open it in Claude.
-3. Ask for a learning plan, for example: “I am A2 and want to improve my speaking before a trip to Sweden.”
+2. In [claude.ai](https://claude.ai), click your name in the bottom-left corner, then choose **Settings**. Open the **Skills** page under Customize:
+
+   ![Settings menu with Skills highlighted under Customize](assets/install-steps/1-settings-skills.png)
+
+3. Click **Add skill**, then **Upload a skill**:
+
+   ![Add skill menu showing Create with Claude, Write skill instructions, and Upload a skill](assets/install-steps/2-add-skill-menu.png)
+
+4. Drag the downloaded `swedish_mentor.skill` file onto the upload box (or click it to browse), then confirm:
+
+   ![Upload skill dialog with a drag-and-drop area](assets/install-steps/3-upload-dialog.png)
+
+5. Start a new chat and ask for a learning plan, for example: “I am A2 and want to improve my speaking before a trip to Sweden.”
+
+Prefer to build the bundle yourself instead of using the pre-packaged file?
+
+```bash
+python package_skill.py
+python package_skill.py --check
+python package_skill.py --install --skills-dir <path-to-skills-folder>
+```
+
+The `--check` command validates that the required skill files are present before you use the bundle.
 
 ## Demo
 
@@ -110,20 +131,6 @@ The same recommendations are also available as a REST API, deployed on Render:
 - Interactive docs: https://help-with-swedish-api.onrender.com/docs
 
 Runs on a free instance, so it spins down after inactivity — the first request after a while can take ~50 seconds. See [api/README.md](api/README.md) for endpoints and local setup.
-
-## Install
-
-Option A — one file: download [swedish_mentor.skill](swedish_mentor.skill) and open it in Claude.
-
-Option B — package it locally:
-
-```bash
-python package_skill.py
-python package_skill.py --check
-python package_skill.py --install --skills-dir <path-to-skills-folder>
-```
-
-The `--check` command validates that the required skill files are present before you use the bundle.
 
 ## Use it
 
@@ -165,6 +172,7 @@ A strong example looks like this:
 - swedish_mentor/references/ — reference files with channel, podcast, and speaking examples
 - swedish_mentor.skill — the packaged skill bundle
 - universal-prompt.md — plain-text copy-paste version for any AI chat
+- assets/install-steps/ — screenshots for the Claude Skill upload walkthrough
 - package_skill.py — builds the bundle
 
 ## Build

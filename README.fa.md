@@ -14,11 +14,32 @@
 
 ## نصب به‌عنوان یک Claude Skill دائمی
 
-اگر می‌خواهید هر بار متن را paste نکنید و به‌جایش در Claude به‌صورت خودکار فعال شود:
+اگر می‌خواهید هر بار متن را paste نکنید و به‌جایش در Claude به‌صورت خودکار فعال شود: این روش به حساب Claude Pro، Max، Team یا Enterprise نیاز دارد — Skills در پلن رایگان در دسترس نیست.
 
 1. [swedish_mentor.skill](swedish_mentor.skill) را دانلود کنید.
-2. آن را در Claude باز کنید.
-3. برای مثال این سؤال را بپرسید: «من در سطح A2 هستم و می‌خواهم قبل از سفر به سوئد صحبت کردنم را بهتر کنم.»
+2. در [claude.ai](https://claude.ai)، روی نام خود در پایین سمت چپ کلیک کنید و **Settings** را انتخاب کنید. صفحه **Skills** را زیر Customize باز کنید:
+
+   ![منوی Settings با گزینه Skills هایلایت‌شده زیر Customize](assets/install-steps/1-settings-skills.png)
+
+3. روی **Add skill** و سپس **Upload a skill** کلیک کنید:
+
+   ![منوی Add skill شامل Create with Claude، Write skill instructions و Upload a skill](assets/install-steps/2-add-skill-menu.png)
+
+4. فایل دانلودشده `swedish_mentor.skill` را روی کادر آپلود بکشید (یا برای انتخاب فایل کلیک کنید) و تأیید کنید:
+
+   ![پنجره Upload skill با یک ناحیه drag-and-drop](assets/install-steps/3-upload-dialog.png)
+
+5. یک چت جدید شروع کنید و برای مثال این سؤال را بپرسید: «من در سطح A2 هستم و می‌خواهم قبل از سفر به سوئد صحبت کردنم را بهتر کنم.»
+
+اگر می‌خواهید به‌جای استفاده از فایل آماده، خودتان بسته را بسازید:
+
+```bash
+python package_skill.py
+python package_skill.py --check
+python package_skill.py --install --skills-dir <path-to-skills-folder>
+```
+
+دستور `--check` قبل از استفاده از بسته، وجود فایل‌های لازم را بررسی می‌کند.
 
 ## دمو
 
@@ -45,20 +66,6 @@
 - مستندات تعاملی: https://help-with-swedish-api.onrender.com/docs
 
 روی نسخه رایگان اجرا می‌شود، بنابراین بعد از عدم فعالیت خاموش می‌شود — اولین درخواست بعد از مدتی ممکن است حدود ۵۰ ثانیه طول بکشد. برای endpoint ها و راه‌اندازی محلی به [api/README.md](api/README.md) مراجعه کنید.
-
-## نصب
-
-گزینه A — یک فایل: [swedish_mentor.skill](swedish_mentor.skill) را دانلود کنید و در Claude باز کنید.
-
-گزینه B — بسته‌بندی محلی:
-
-```bash
-python package_skill.py
-python package_skill.py --check
-python package_skill.py --install --skills-dir <path-to-skills-folder>
-```
-
-دستور `--check` قبل از استفاده از بسته، وجود فایل‌های لازم را بررسی می‌کند.
 
 ## نحوه استفاده
 
@@ -99,6 +106,7 @@ python package_skill.py --install --skills-dir <path-to-skills-folder>
 - swedish_mentor/SKILL.md — دستورالعمل‌های Skill
 - swedish_mentor/references/ — فایل‌های مرجع با کانال‌ها، پادکست‌ها و مثال‌ها
 - swedish_mentor.skill — بسته‌ی آماده‌ی Skill
+- assets/install-steps/ — اسکرین‌شات‌های راهنمای نصب
 - package_skill.py — بسته را می‌سازد
 
 ## ساخت
