@@ -29,6 +29,15 @@ A learner says: “I am A2 and want to improve my speaking before a trip to Swed
 
 Many learners waste time watching unrelated videos or choosing content that is too hard or too easy. This skill helps them avoid that by offering manageable recommendations and a realistic path forward.
 
+## Live API
+
+The same recommendations are also available as a REST API, deployed on Render:
+
+- Base URL: https://help-with-swedish-api.onrender.com
+- Interactive docs: https://help-with-swedish-api.onrender.com/docs
+
+Runs on a free instance, so it spins down after inactivity — the first request after a while can take ~50 seconds. See [api/README.md](api/README.md) for endpoints and local setup.
+
 ## Install
 
 Option A — one file: download [hjälp_om_svenska.skill](hjälp_om_svenska.skill) and open it in Claude.

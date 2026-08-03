@@ -29,6 +29,15 @@ En användare skriver: “Jag är på A2-nivå och vill bli bättre på att prat
 
 Många läser eller tittar på material som är antingen för svårt eller för enkelt. Den här skillen hjälper till att undvika det och ger ett mer realistiskt sätt att lära sig steg för steg.
 
+## Live API
+
+Samma rekommendationer finns också som ett REST API, driftsatt på Render:
+
+- Bas-URL: https://help-with-swedish-api.onrender.com
+- Interaktiv dokumentation: https://help-with-swedish-api.onrender.com/docs
+
+Körs på en gratisinstans, så den stängs av vid inaktivitet — första anropet efter ett tag kan ta ~50 sekunder. Se [api/README.md](api/README.md) för endpoints och lokal installation.
+
 ## Installera
 
 Alternativ A — en fil: ladda ner [hjälp_om_svenska.skill](hjälp_om_svenska.skill) och öppna den i Claude.
