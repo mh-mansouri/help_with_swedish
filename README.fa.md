@@ -130,6 +130,8 @@ python package_skill.py --install --skills-dir <path-to-skills-folder>
 - swedish_mentor.skill — بسته‌ی آماده‌ی Skill
 - assets/install-steps/ — اسکرین‌شات‌های راهنمای نصب
 - docs/index.html — صفحه وب مستقل که مستقیماً با API زنده ارتباط برقرار می‌کند
+- scripts/check_links.py — بررسی می‌کند که لینک هر پیشنهاد هنوز کار می‌کند
+- .github/workflows/ci.yml — تست‌ها و بررسی لینک‌ها را در push/PR/هر هفته اجرا می‌کند
 - package_skill.py — بسته را می‌سازد
 
 ## ساخت

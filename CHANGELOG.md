@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+- Added CI (`.github/workflows/ci.yml`): runs the API test suite on every push/PR, and a weekly job that checks every recommended channel/podcast link still resolves (`scripts/check_links.py`).
+- The webpage now auto-detects the visitor's browser language (Swedish, English, or Persian) on first visit, falling back to Swedish for anything else; a manual choice is still remembered via localStorage.
+- Added Open Graph / Twitter Card meta tags to the webpage, updated per language, so sharing the link shows a proper title/description/preview image.
+- Regenerated `assets/skill-demo.gif` to mention the webpage and its three languages.
+
 ## 0.4.0
 - Renamed the skill folder/bundle from `hjälp_om_svenska` to the ASCII-safe `swedish_mentor` (fixes tooling and link issues with non-ASCII paths).
 - Added `universal-prompt.md`, a plain-text copy-paste prompt that works in any AI chat (ChatGPT, Gemini, Copilot, etc.), not just Claude.

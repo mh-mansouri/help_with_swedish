@@ -88,15 +88,21 @@ def draw_frame(step: int) -> Image.Image:
     # footer message
     if step <= 2:
         draw.text((100, 575), "Pick a level, choose a skill, and take one small step.", font=SMALL_FONT, fill="#cbd5e1")
-    else:
+    elif step <= 4:
         draw.text((100, 575), "You choose the pace. Ready for one small step?", font=SMALL_FONT, fill="#cbd5e1")
+    else:
+        # Note: Pillow doesn't shape Arabic-script text, so Persian is spelled
+        # out in English here rather than drawn as "فارسی" (which renders as
+        # disconnected, unshaped glyphs). The real webpage renders it correctly
+        # via the browser.
+        draw.text((100, 575), "Also works as a webpage — Swedish, English, Persian — no account needed.", font=SMALL_FONT, fill="#cbd5e1")
 
     return img
 
 
 def build_gif() -> None:
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    frames = [draw_frame(step) for step in range(6)]
+    frames = [draw_frame(step) for step in range(8)]
     frames[0].save(
         OUTPUT,
         save_all=True,

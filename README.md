@@ -209,6 +209,8 @@ A strong example looks like this:
 - universal-prompt.md — plain-text copy-paste version for any AI chat
 - assets/install-steps/ — screenshots for the Claude Skill upload walkthrough
 - docs/index.html — standalone webpage that calls the live API directly
+- scripts/check_links.py — verifies every recommendation's URL still resolves
+- .github/workflows/ci.yml — runs tests and the link check on push/PR/weekly
 - package_skill.py — builds the bundle
 
 ## Build

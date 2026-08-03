@@ -130,6 +130,8 @@ Ett starkt exempel ser ut så här:
 - swedish_mentor.skill — den paketerade skillfilen
 - assets/install-steps/ — skärmdumpar för installationsguiden
 - docs/index.html — fristående webbsida som anropar det live API:et direkt
+- scripts/check_links.py — kontrollerar att varje rekommendations länk fortfarande fungerar
+- .github/workflows/ci.yml — kör tester och länkkontroll vid push/PR/varje vecka
 - package_skill.py — bygger paketet
 
 ## Bygg

@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hjälp med svenska — snabba rekommendationer</title>
 <meta name="description" content="Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mh-mansouri.github.io/help_with_swedish/">
+<meta property="og:image" content="https://raw.githubusercontent.com/mh-mansouri/help_with_swedish/master/assets/skill-demo.gif">
+<meta property="og:title" id="ogTitle" content="Hjälp med svenska — snabba rekommendationer">
+<meta property="og:description" id="ogDescription" content="Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.">
+<meta property="og:locale" id="ogLocale" content="sv_SE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/mh-mansouri/help_with_swedish/master/assets/skill-demo.gif">
+<meta name="twitter:title" id="twitterTitle" content="Hjälp med svenska — snabba rekommendationer">
+<meta name="twitter:description" id="twitterDescription" content="Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.">
 <style>
   :root {
     color-scheme: light dark;
@@ -268,6 +278,7 @@ const LEVEL_GUIDE = {
 const I18N = {
   en: {
     dir: "ltr",
+    ogLocale: "en_US",
     pageTitle: "Help with Swedish — quick recommendations",
     metaDescription: "Pick your Swedish level and skill to get YouTube and podcast recommendations. No sign-up, no chat app.",
     h1: "Find Swedish learning resources",
@@ -294,6 +305,7 @@ const I18N = {
   },
   sv: {
     dir: "ltr",
+    ogLocale: "sv_SE",
     pageTitle: "Hjälp med svenska — snabba rekommendationer",
     metaDescription: "Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.",
     h1: "Hitta resurser för att lära dig svenska",
@@ -320,6 +332,7 @@ const I18N = {
   },
   fa: {
     dir: "rtl",
+    ogLocale: "fa_IR",
     pageTitle: "کمک به زبان سوئدی — پیشنهادهای سریع",
     metaDescription: "سطح و مهارت سوئدی خود را انتخاب کنید تا پیشنهادهای یوتیوب و پادکست دریافت کنید. بدون ثبت‌نام، بدون اپلیکیشن چت.",
     h1: "منابع یادگیری سوئدی را پیدا کنید",
@@ -472,6 +485,11 @@ function applyLanguage(lang) {
   document.documentElement.dir = t.dir;
   document.title = t.pageTitle;
   document.querySelector('meta[name="description"]').setAttribute("content", t.metaDescription);
+  document.getElementById("ogTitle").setAttribute("content", t.pageTitle);
+  document.getElementById("ogDescription").setAttribute("content", t.metaDescription);
+  document.getElementById("ogLocale").setAttribute("content", t.ogLocale);
+  document.getElementById("twitterTitle").setAttribute("content", t.pageTitle);
+  document.getElementById("twitterDescription").setAttribute("content", t.metaDescription);
 
   h1El.textContent = t.h1;
   leadEl.textContent = t.lead;
@@ -534,8 +552,18 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
+function detectBrowserLang() {
+  const candidates = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+  for (const raw of candidates) {
+    if (!raw) continue;
+    const code = raw.slice(0, 2).toLowerCase();
+    if (I18N[code]) return code;
+  }
+  return "sv";
+}
+
 const savedLang = localStorage.getItem(LANG_KEY);
-applyLanguage(savedLang && I18N[savedLang] ? savedLang : "sv");
+applyLanguage(savedLang && I18N[savedLang] ? savedLang : detectBrowserLang());
 form.dispatchEvent(new Event("submit"));
 </script>
 </body>
