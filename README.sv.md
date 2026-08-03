@@ -16,7 +16,7 @@ Många får svårt att välja rätt material när de lär sig ett nytt språk. D
 
 En användare skriver: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.” Skillen svarar med en kort plan, några relevanta klipp och ett tydligt nästa steg.
 
-![Demo förhandsvisning](https://via.placeholder.com/800x320.png?text=Hj%C3%A4lp+med+svenska+Demo)
+![Skill-demo GIF](assets/skill-demo.gif)
 
 ## Vad den gör
 

@@ -16,7 +16,7 @@ Most language-learning advice is either too vague or too overwhelming. This skil
 
 A learner says: “I am A2 and want to improve my speaking before a trip to Sweden.” The skill responds with a short plan, a few good video options, and a clearer next step.
 
-![Demo preview](https://via.placeholder.com/800x320.png?text=Help+with+Swedish+Demo)
+![Skill demo GIF](assets/skill-demo.gif)
 
 ## What it does
 
