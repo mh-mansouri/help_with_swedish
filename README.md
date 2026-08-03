@@ -77,6 +77,15 @@ Now greet the user in character and ask what they'd like to work on.
 
 This is the same content as [universal-prompt.md](universal-prompt.md) — use whichever is more convenient to copy from.
 
+## No account, no AI chat — just a webpage
+
+Don't want to use any AI chat at all? Pick your level and skill on a plain webpage and get the same list back:
+
+- Live: https://mh-mansouri.github.io/help_with_swedish/
+- Or download [docs/index.html](docs/index.html) and open it in any browser — no server, no install, no sign-up.
+
+It calls the same [Live API](#live-api) described below, so results match what the Skill and the copy-paste prompt recommend.
+
 ## Install as a persistent Claude Skill
 
 Prefer a one-time setup that auto-activates in Claude instead of copy-pasting each time? Use the packaged Skill. This needs a Claude Pro, Max, Team, or Enterprise plan — Skills aren't available on the free plan.
@@ -173,6 +182,7 @@ A strong example looks like this:
 - swedish_mentor.skill — the packaged skill bundle
 - universal-prompt.md — plain-text copy-paste version for any AI chat
 - assets/install-steps/ — screenshots for the Claude Skill upload walkthrough
+- docs/index.html — standalone webpage that calls the live API directly
 - package_skill.py — builds the bundle
 
 ## Build

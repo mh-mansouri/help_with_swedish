@@ -12,6 +12,15 @@ Inget att ladda ner eller installera. Kopiera rutan nedan, klistra in den som di
 
 Se hela texten i [universal-prompt.md](universal-prompt.md) (samma innehåll som i den engelska README:n).
 
+## Inget konto, ingen AI-chatt — bara en webbsida
+
+Vill du inte använda någon AI-chatt alls? Välj din nivå och färdighet på en enkel webbsida och få samma lista tillbaka:
+
+- Live: https://mh-mansouri.github.io/help_with_swedish/
+- Eller ladda ner [docs/index.html](docs/index.html) och öppna den i valfri webbläsare — ingen server, ingen installation, inget konto.
+
+Den anropar samma [Live API](#live-api) som beskrivs nedan, så resultaten matchar det som skillen och copy-paste-prompten rekommenderar.
+
 ## Installera som en permanent Claude Skill
 
 Vill du slippa klistra in texten varje gång och istället få den att aktiveras automatiskt i Claude? Detta kräver ett Claude Pro-, Max-, Team- eller Enterprise-konto — Skills finns inte på gratisplanen.
@@ -107,6 +116,7 @@ Ett starkt exempel ser ut så här:
 - swedish_mentor/references/ — referensfiler med kanaler, poddar och exempel
 - swedish_mentor.skill — den paketerade skillfilen
 - assets/install-steps/ — skärmdumpar för installationsguiden
+- docs/index.html — fristående webbsida som anropar det live API:et direkt
 - package_skill.py — bygger paketet
 
 ## Bygg
