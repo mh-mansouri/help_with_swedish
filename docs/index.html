@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="sv">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Help with Swedish — quick recommendations</title>
-<meta name="description" content="Pick your Swedish level and skill to get YouTube and podcast recommendations. No sign-up, no chat app.">
+<title>Hjälp med svenska — snabba rekommendationer</title>
+<meta name="description" content="Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.">
 <style>
   :root {
     color-scheme: light dark;
@@ -35,12 +35,31 @@
     padding: 2rem 1.25rem 4rem;
     background: var(--bg);
     color: var(--fg);
-    font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Tahoma, Helvetica, Arial, sans-serif;
     line-height: 1.5;
   }
   main {
     max-width: 640px;
     margin: 0 auto;
+  }
+  .lang-switch {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .lang-switch button {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .lang-switch button[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
   }
   h1 {
     font-size: 1.5rem;
@@ -78,15 +97,15 @@
     background: var(--bg);
     color: var(--fg);
   }
-  button {
+  #submit {
     background: var(--accent);
     color: #fff;
     border: none;
     cursor: pointer;
     flex: 1 1 160px;
   }
-  button:hover { opacity: 0.9; }
-  button:disabled { opacity: 0.6; cursor: not-allowed; }
+  #submit:hover { opacity: 0.9; }
+  #submit:disabled { opacity: 0.6; cursor: not-allowed; }
   #status {
     margin-top: 1rem;
     color: var(--muted);
@@ -114,29 +133,6 @@
   a.item-name:hover {
     text-decoration: underline;
   }
-  details.level-guide {
-    margin-top: 0.6rem;
-    font-size: 0.85rem;
-  }
-  details.level-guide summary {
-    cursor: pointer;
-    color: var(--accent);
-  }
-  table.level-table {
-    margin-top: 0.6rem;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  table.level-table th, table.level-table td {
-    text-align: left;
-    padding: 0.4rem 0.6rem;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  table.level-table th {
-    color: var(--muted);
-    font-weight: 600;
-  }
   .tag {
     display: inline-block;
     font-size: 0.72rem;
@@ -144,7 +140,7 @@
     letter-spacing: 0.03em;
     padding: 0.1rem 0.5rem;
     border-radius: 999px;
-    margin-left: 0.5rem;
+    margin-inline-start: 0.5rem;
     vertical-align: middle;
   }
   .tag-channel { background: var(--tag-channel); color: var(--accent); }
@@ -159,6 +155,29 @@
     font-size: 0.8rem;
     color: var(--muted);
   }
+  details.level-guide {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+  }
+  details.level-guide summary {
+    cursor: pointer;
+    color: var(--accent);
+  }
+  table.level-table {
+    margin-top: 0.6rem;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  table.level-table th, table.level-table td {
+    text-align: start;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.level-table th {
+    color: var(--muted);
+    font-weight: 600;
+  }
   footer {
     margin-top: 2.5rem;
     font-size: 0.85rem;
@@ -169,29 +188,28 @@
 </head>
 <body>
 <main>
-  <h1>Find Swedish learning resources</h1>
-  <p class="lead">Pick a level and a skill. No account, no chat app — just a list of YouTube channels and podcasts.</p>
+  <div class="lang-switch" role="group" aria-label="Language / Språk / زبان">
+    <button type="button" data-lang="sv" aria-pressed="true">Svenska</button>
+    <button type="button" data-lang="en" aria-pressed="false">English</button>
+    <button type="button" data-lang="fa" aria-pressed="false">فارسی</button>
+  </div>
+
+  <h1 id="h1">Hitta resurser för att lära dig svenska</h1>
+  <p class="lead" id="lead">Välj en nivå och en färdighet. Inget konto, ingen AI-chatt — bara en lista med YouTube-kanaler och poddar.</p>
 
   <details class="level-guide">
-    <summary>Not sure what A1–C2 mean?</summary>
+    <summary id="cefrSummary">Inte säker på vad A1–C2 betyder?</summary>
     <table class="level-table">
       <thead>
-        <tr><th>Level</th><th>Stage</th><th>What you can do</th></tr>
+        <tr><th id="thLevel">Nivå</th><th id="thStage">Steg</th><th id="thWhat">Vad du klarar av</th></tr>
       </thead>
-      <tbody>
-        <tr><td>A1</td><td>Beginner</td><td>Understand and use very basic phrases. Introduce yourself and ask simple questions.</td></tr>
-        <tr><td>A2</td><td>Elementary</td><td>Handle simple, everyday exchanges like shopping, directions, and routines.</td></tr>
-        <tr><td>B1</td><td>Intermediate</td><td>Manage most situations while traveling or at work. Describe experiences and plans.</td></tr>
-        <tr><td>B2</td><td>Upper intermediate</td><td>Interact fluently with native speakers. Understand the main ideas of complex text.</td></tr>
-        <tr><td>C1</td><td>Advanced</td><td>Express yourself fluently and spontaneously on demanding academic or professional topics.</td></tr>
-        <tr><td>C2</td><td>Proficient</td><td>Understand virtually everything heard or read, with near-native fluency.</td></tr>
-      </tbody>
+      <tbody id="cefrBody"></tbody>
     </table>
   </details>
 
   <form id="form">
     <div class="field">
-      <label for="level">Level</label>
+      <label for="level" id="levelLabel">Nivå</label>
       <select id="level" name="level" required>
         <option value="A1">A1</option>
         <option value="A2" selected>A2</option>
@@ -202,49 +220,215 @@
       </select>
     </div>
     <div class="field">
-      <label for="skill">Skill</label>
-      <select id="skill" name="skill">
-        <option value="">Any</option>
-        <option value="listening">Listening</option>
-        <option value="reading">Reading</option>
-        <option value="writing">Writing</option>
-        <option value="speaking">Speaking</option>
-        <option value="pronunciation">Pronunciation</option>
-        <option value="vocabulary">Vocabulary</option>
-        <option value="grammar">Grammar</option>
-      </select>
+      <label for="skill" id="skillLabel">Färdighet</label>
+      <select id="skill" name="skill"></select>
     </div>
-    <button type="submit" id="submit">Get recommendations</button>
+    <button type="submit" id="submit">Hämta rekommendationer</button>
   </form>
 
   <p id="status" role="status"></p>
   <ul id="results"></ul>
 
-  <footer>
-    Powered by the <a href="https://help-with-swedish-api.onrender.com/docs" target="_blank" rel="noopener">Help with Swedish API</a>,
-    also usable as a <a href="https://github.com/mh-mansouri/help_with_swedish" target="_blank" rel="noopener">Claude Skill or copy-paste prompt</a>.
-    Runs on a free instance, so the first request after a while can take up to a minute to wake up.
-  </footer>
+  <footer id="footer"></footer>
 </main>
 
 <script>
 const API_BASE = "https://help-with-swedish-api.onrender.com";
+const LANG_KEY = "hws_lang";
 
+const SKILL_VALUES = ["", "listening", "reading", "writing", "speaking", "pronunciation", "vocabulary", "grammar"];
+
+const LEVEL_GUIDE = {
+  en: [
+    ["A1", "Beginner", "Understand and use very basic phrases. Introduce yourself and ask simple questions."],
+    ["A2", "Elementary", "Handle simple, everyday exchanges like shopping, directions, and routines."],
+    ["B1", "Intermediate", "Manage most situations while traveling or at work. Describe experiences and plans."],
+    ["B2", "Upper intermediate", "Interact fluently with native speakers. Understand the main ideas of complex text."],
+    ["C1", "Advanced", "Express yourself fluently and spontaneously on demanding academic or professional topics."],
+    ["C2", "Proficient", "Understand virtually everything heard or read, with near-native fluency."],
+  ],
+  sv: [
+    ["A1", "Nybörjare", "Förstå och använda mycket enkla fraser. Presentera dig själv och ställa enkla frågor."],
+    ["A2", "Grundläggande", "Klara enkla vardagssituationer som att handla, fråga om vägen och vardagsrutiner."],
+    ["B1", "Mellannivå", "Klara de flesta situationer på resa eller i arbetet. Beskriva upplevelser och planer."],
+    ["B2", "Övre mellannivå", "Kommunicera flytande med modersmålstalare. Förstå huvudinnehållet i komplexa texter."],
+    ["C1", "Avancerad", "Uttrycka dig flytande och spontant om krävande akademiska eller yrkesmässiga ämnen."],
+    ["C2", "Mycket avancerad", "Förstå i princip allt du hör eller läser, med nästan modersmålsnivå."],
+  ],
+  fa: [
+    ["A1", "مبتدی", "درک و استفاده از عبارات بسیار ساده. معرفی خود و پرسیدن سؤالات ساده."],
+    ["A2", "مقدماتی", "انجام تعاملات ساده روزمره مانند خرید، پرسیدن آدرس و کارهای روتین."],
+    ["B1", "متوسط", "مدیریت بیشتر موقعیت‌ها هنگام سفر یا کار. توصیف تجربیات و برنامه‌ها."],
+    ["B2", "متوسط رو به بالا", "تعامل روان با افراد بومی‌زبان. درک ایده‌های اصلی متون پیچیده."],
+    ["C1", "پیشرفته", "بیان روان و خودجوش درباره موضوعات دانشگاهی یا حرفه‌ای دشوار."],
+    ["C2", "مسلط", "درک تقریباً همه‌چیزی که می‌شنوید یا می‌خوانید، با تسلطی نزدیک به زبان مادری."],
+  ],
+};
+
+const I18N = {
+  en: {
+    dir: "ltr",
+    pageTitle: "Help with Swedish — quick recommendations",
+    metaDescription: "Pick your Swedish level and skill to get YouTube and podcast recommendations. No sign-up, no chat app.",
+    h1: "Find Swedish learning resources",
+    lead: "Pick a level and a skill. No account, no chat app — just a list of YouTube channels and podcasts.",
+    cefrSummary: "Not sure what A1–C2 mean?",
+    thLevel: "Level",
+    thStage: "Stage",
+    thWhat: "What you can do",
+    levelLabel: "Level",
+    skillLabel: "Skill",
+    skillOptions: ["Any", "Listening", "Reading", "Writing", "Speaking", "Pronunciation", "Vocabulary", "Grammar"],
+    submit: "Get recommendations",
+    loading: "Loading… the free server can take up to a minute to wake up on the first request.",
+    noMatches: "No matches for that combination. Try a different skill.",
+    errorPrefix: "Something went wrong: ",
+    tagChannel: "channel",
+    tagPodcast: "podcast",
+    levelsPrefix: "Levels: ",
+    footerPre: "Powered by the ",
+    footerApiLink: "Help with Swedish API",
+    footerMid: ", also usable as a ",
+    footerSkillLink: "Claude Skill or copy-paste prompt",
+    footerPost: ". Runs on a free instance, so the first request after a while can take up to a minute to wake up.",
+  },
+  sv: {
+    dir: "ltr",
+    pageTitle: "Hjälp med svenska — snabba rekommendationer",
+    metaDescription: "Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.",
+    h1: "Hitta resurser för att lära dig svenska",
+    lead: "Välj en nivå och en färdighet. Inget konto, ingen AI-chatt — bara en lista med YouTube-kanaler och poddar.",
+    cefrSummary: "Inte säker på vad A1–C2 betyder?",
+    thLevel: "Nivå",
+    thStage: "Steg",
+    thWhat: "Vad du klarar av",
+    levelLabel: "Nivå",
+    skillLabel: "Färdighet",
+    skillOptions: ["Valfri", "Lyssna", "Läsa", "Skriva", "Tala", "Uttal", "Ordförråd", "Grammatik"],
+    submit: "Hämta rekommendationer",
+    loading: "Laddar … den kostnadsfria servern kan ta upp till en minut att vakna vid första förfrågan.",
+    noMatches: "Inga träffar för den kombinationen. Prova en annan färdighet.",
+    errorPrefix: "Något gick fel: ",
+    tagChannel: "kanal",
+    tagPodcast: "podd",
+    levelsPrefix: "Nivåer: ",
+    footerPre: "Drivs av ",
+    footerApiLink: "Help with Swedish API",
+    footerMid: ", som också går att använda som en ",
+    footerSkillLink: "Claude Skill eller copy-paste-prompt",
+    footerPost: ". Körs på en gratisinstans, så det första anropet efter ett tag kan ta upp till en minut.",
+  },
+  fa: {
+    dir: "rtl",
+    pageTitle: "کمک به زبان سوئدی — پیشنهادهای سریع",
+    metaDescription: "سطح و مهارت سوئدی خود را انتخاب کنید تا پیشنهادهای یوتیوب و پادکست دریافت کنید. بدون ثبت‌نام، بدون اپلیکیشن چت.",
+    h1: "منابع یادگیری سوئدی را پیدا کنید",
+    lead: "سطح و مهارت خود را انتخاب کنید. بدون حساب کاربری، بدون چت هوش مصنوعی — فقط یک لیست از کانال‌های یوتیوب و پادکست‌ها.",
+    cefrSummary: "مطمئن نیستید سطوح A1 تا C2 یعنی چه؟",
+    thLevel: "سطح",
+    thStage: "مرحله",
+    thWhat: "چه کارهایی از شما برمی‌آید",
+    levelLabel: "سطح",
+    skillLabel: "مهارت",
+    skillOptions: ["هرکدام", "شنیدن", "خواندن", "نوشتن", "صحبت‌کردن", "تلفظ", "واژگان", "دستور زبان"],
+    submit: "دریافت پیشنهادها",
+    loading: "در حال بارگذاری… سرور رایگان ممکن است در اولین درخواست تا یک دقیقه طول بکشد تا فعال شود.",
+    noMatches: "نتیجه‌ای برای این ترکیب پیدا نشد. مهارت دیگری را امتحان کنید.",
+    errorPrefix: "مشکلی پیش آمد: ",
+    tagChannel: "کانال",
+    tagPodcast: "پادکست",
+    levelsPrefix: "سطوح: ",
+    footerPre: "این صفحه توسط ",
+    footerApiLink: "Help with Swedish API",
+    footerMid: " پشتیبانی می‌شود که همچنین به‌صورت ",
+    footerSkillLink: "Claude Skill یا پرامپت کپی-پیست",
+    footerPost: " قابل استفاده است. روی نسخه رایگان اجرا می‌شود، بنابراین اولین درخواست بعد از مدتی ممکن است تا یک دقیقه طول بکشد.",
+  },
+};
+
+const langButtons = document.querySelectorAll(".lang-switch button");
+const h1El = document.getElementById("h1");
+const leadEl = document.getElementById("lead");
+const cefrSummaryEl = document.getElementById("cefrSummary");
+const thLevelEl = document.getElementById("thLevel");
+const thStageEl = document.getElementById("thStage");
+const thWhatEl = document.getElementById("thWhat");
+const cefrBodyEl = document.getElementById("cefrBody");
+const levelLabelEl = document.getElementById("levelLabel");
+const skillLabelEl = document.getElementById("skillLabel");
 const form = document.getElementById("form");
 const levelSelect = document.getElementById("level");
 const skillSelect = document.getElementById("skill");
 const submitButton = document.getElementById("submit");
 const statusEl = document.getElementById("status");
 const resultsEl = document.getElementById("results");
+const footerEl = document.getElementById("footer");
+
+let currentLang = "sv";
+let lastItems = null;
+
+function buildCefrTable(lang) {
+  cefrBodyEl.textContent = "";
+  for (const [level, stage, desc] of LEVEL_GUIDE[lang]) {
+    const tr = document.createElement("tr");
+    for (const text of [level, stage, desc]) {
+      const td = document.createElement("td");
+      td.textContent = text;
+      tr.appendChild(td);
+    }
+    cefrBodyEl.appendChild(tr);
+  }
+}
+
+function buildSkillOptions(lang) {
+  const previousValue = skillSelect.value;
+  skillSelect.textContent = "";
+  const labels = I18N[lang].skillOptions;
+  SKILL_VALUES.forEach((value, i) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = labels[i];
+    skillSelect.appendChild(option);
+  });
+  skillSelect.value = previousValue || "";
+}
+
+function buildFooter(lang) {
+  const t = I18N[lang];
+  footerEl.textContent = "";
+  footerEl.appendChild(document.createTextNode(t.footerPre));
+
+  const apiLink = document.createElement("a");
+  apiLink.href = API_BASE + "/docs";
+  apiLink.target = "_blank";
+  apiLink.rel = "noopener";
+  apiLink.textContent = t.footerApiLink;
+  footerEl.appendChild(apiLink);
+
+  footerEl.appendChild(document.createTextNode(t.footerMid));
+
+  const skillLink = document.createElement("a");
+  skillLink.href = "https://github.com/mh-mansouri/help_with_swedish";
+  skillLink.target = "_blank";
+  skillLink.rel = "noopener";
+  skillLink.textContent = t.footerSkillLink;
+  footerEl.appendChild(skillLink);
+
+  footerEl.appendChild(document.createTextNode(t.footerPost));
+}
+
+function tagLabel(type, lang) {
+  return type === "podcast" ? I18N[lang].tagPodcast : I18N[lang].tagChannel;
+}
 
 function clearResults() {
   resultsEl.textContent = "";
 }
 
-function renderResults(items) {
+function renderResults(items, lang) {
   clearResults();
-  if (items.length === 0) {
-    statusEl.textContent = "No matches for that combination. Try a different skill.";
+  if (!items || items.length === 0) {
+    statusEl.textContent = I18N[lang].noMatches;
     return;
   }
   statusEl.textContent = "";
@@ -263,7 +447,7 @@ function renderResults(items) {
 
     const tagEl = document.createElement("span");
     tagEl.className = "tag " + (item.type === "podcast" ? "tag-podcast" : "tag-channel");
-    tagEl.textContent = item.type;
+    tagEl.textContent = tagLabel(item.type, lang);
     li.appendChild(tagEl);
 
     const descEl = document.createElement("div");
@@ -273,12 +457,50 @@ function renderResults(items) {
 
     const levelsEl = document.createElement("div");
     levelsEl.className = "item-levels";
-    levelsEl.textContent = "Levels: " + item.levels.join(", ");
+    levelsEl.textContent = I18N[lang].levelsPrefix + item.levels.join(", ");
     li.appendChild(levelsEl);
 
     resultsEl.appendChild(li);
   }
 }
+
+function applyLanguage(lang) {
+  currentLang = lang;
+  const t = I18N[lang];
+
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.dir;
+  document.title = t.pageTitle;
+  document.querySelector('meta[name="description"]').setAttribute("content", t.metaDescription);
+
+  h1El.textContent = t.h1;
+  leadEl.textContent = t.lead;
+  cefrSummaryEl.textContent = t.cefrSummary;
+  thLevelEl.textContent = t.thLevel;
+  thStageEl.textContent = t.thStage;
+  thWhatEl.textContent = t.thWhat;
+  buildCefrTable(lang);
+  levelLabelEl.textContent = t.levelLabel;
+  skillLabelEl.textContent = t.skillLabel;
+  buildSkillOptions(lang);
+  submitButton.textContent = t.submit;
+  buildFooter(lang);
+
+  langButtons.forEach((btn) => {
+    btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
+  });
+
+  if (lastItems) {
+    renderResults(lastItems, lang);
+  }
+}
+
+langButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.setItem(LANG_KEY, btn.dataset.lang);
+    applyLanguage(btn.dataset.lang);
+  });
+});
 
 async function fetchRecommendations(level, skill) {
   const url = new URL(API_BASE + "/recommendations");
@@ -298,18 +520,22 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
   submitButton.disabled = true;
   clearResults();
-  statusEl.textContent = "Loading… the free server can take up to a minute to wake up on the first request.";
+  lastItems = null;
+  statusEl.textContent = I18N[currentLang].loading;
 
   try {
     const items = await fetchRecommendations(levelSelect.value, skillSelect.value);
-    renderResults(items);
+    lastItems = items;
+    renderResults(items, currentLang);
   } catch (err) {
-    statusEl.textContent = "Something went wrong: " + err.message;
+    statusEl.textContent = I18N[currentLang].errorPrefix + err.message;
   } finally {
     submitButton.disabled = false;
   }
 });
 
+const savedLang = localStorage.getItem(LANG_KEY);
+applyLanguage(savedLang && I18N[savedLang] ? savedLang : "sv");
 form.dispatchEvent(new Event("submit"));
 </script>
 </body>

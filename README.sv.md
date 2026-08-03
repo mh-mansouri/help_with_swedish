@@ -27,7 +27,7 @@ Se hela texten i [universal-prompt.md](universal-prompt.md) (samma innehåll som
 
 ## Inget konto, ingen AI-chatt — bara en webbsida
 
-Vill du inte använda någon AI-chatt alls? Välj din nivå och färdighet på en enkel webbsida och få samma lista tillbaka:
+Vill du inte använda någon AI-chatt alls? Välj din nivå och färdighet på en enkel webbsida och få samma lista tillbaka. Sidan finns på svenska (standard), engelska och persiska — byt språk när som helst med knapparna högst upp, med höger-till-vänster-layout för persiska:
 
 - Live: https://mh-mansouri.github.io/help_with_swedish/
 - Eller ladda ner [docs/index.html](docs/index.html) och öppna den i valfri webbläsare — ingen server, ingen installation, inget konto.

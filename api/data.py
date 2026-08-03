@@ -47,7 +47,7 @@ CHANNELS = [
         "levels": ["B1", "B2", "C1", "C2"],
         "skills": ["speaking", "pronunciation"],
         "description": "Pronunciation and speaking drills.",
-        "url": None,
+        "url": "https://www.youtube.com/@SwedishShadowing",
     },
 ]
 

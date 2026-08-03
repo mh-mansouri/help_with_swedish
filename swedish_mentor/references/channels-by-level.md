@@ -8,9 +8,9 @@
 ## B1
 - [Peter SFI](https://www.youtube.com/@petersfi6089)
 - [UR Play](https://urplay.se/serie/232022-studera-svenska)
-- Swedish Shadowing (no confirmed official link — verify before sharing)
+- [Swedish Shadowing](https://www.youtube.com/@SwedishShadowing)
 
 ## B2+
-- Swedish Shadowing (no confirmed official link — verify before sharing)
+- [Swedish Shadowing](https://www.youtube.com/@SwedishShadowing)
 - [UR Play](https://urplay.se/serie/232022-studera-svenska)
 - [Peter SFI](https://www.youtube.com/@petersfi6089)

@@ -8,7 +8,7 @@ from data import CHANNELS, LEVEL_GUIDE, LEVELS, PODCASTS, SPEAKING_CLIPS
 app = FastAPI(
     title="Help with Swedish API",
     description="Level-appropriate YouTube channels, podcasts, and speaking clips for Swedish learners.",
-    version="0.1.0",
+    version="0.2.0",
 )
 
 app.add_middleware(

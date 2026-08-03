@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0
+- Renamed the skill folder/bundle from `hjälp_om_svenska` to the ASCII-safe `swedish_mentor` (fixes tooling and link issues with non-ASCII paths).
+- Added `universal-prompt.md`, a plain-text copy-paste prompt that works in any AI chat (ChatGPT, Gemini, Copilot, etc.), not just Claude.
+- Added a screenshotted step-by-step walkthrough for installing the Skill in Claude.ai.
+- Added `docs/index.html`, a standalone webpage (no AI chat, no account) hosted on GitHub Pages that calls the live API directly; enabled CORS on the API for it.
+- Made the webpage trilingual — Swedish (default), English, Persian — with right-to-left layout for Persian.
+- Added a verified, clickable official link for every recommended channel and podcast across the API, Skill, prompt, and webpage.
+- Added a plain-language CEFR level guide (what A1-C2 mean) to the README, Skill, prompt, and webpage; new `GET /levels/guide` endpoint on the API.
+
 ## 0.3.0
 - Added a REST API (api/) exposing channel, podcast, and speaking-clip recommendations, filterable by CEFR level and skill.
 - Included tests and install/run instructions for the API.
