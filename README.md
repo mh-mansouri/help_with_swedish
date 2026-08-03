@@ -2,7 +2,7 @@
 
 English · [Svenska](README.sv.md) · [فارسی](README.fa.md)
 
-A Claude Skill for helping Swedish learners find practical, level-appropriate YouTube clips and build a simple learning path.
+A Claude Skill for helping Swedish learners find practical, level-appropriate YouTube clips and podcasts, and build a simple learning path.
 
 Most language-learning advice is either too vague or too overwhelming. This skill helps by asking what the learner wants to improve, what level they are at, and then suggesting focused resources instead of random videos.
 
@@ -14,15 +14,15 @@ Most language-learning advice is either too vague or too overwhelming. This skil
 
 ## Demo
 
-A learner says: “I am A2 and want to improve my speaking before a trip to Sweden.” The skill responds with a short plan, a few good video options, and a clearer next step.
+A learner says: “I am A2 and want to improve my speaking before a trip to Sweden.” The skill responds with a short plan, a few good video or podcast options, and a clearer next step.
 
 ![Skill demo GIF](assets/skill-demo.gif)
 
 ## What it does
 
 - Picks a learning path based on level, goal, and skill area.
-- Recommends YouTube clips for listening, reading, writing, and speaking.
-- Prioritizes practical channels such as Peter SFI, Lätt Svenska med Oskar, UR Play, and Swedish Shadowing.
+- Recommends YouTube clips and podcast episodes for listening, reading, writing, and speaking.
+- Prioritizes practical channels such as Peter SFI, Lätt Svenska med Oskar, UR Play, and Swedish Shadowing, plus podcasts like Radio Sweden på lätt svenska, Klartext, and Fluent Fiction – Swedish.
 - Keeps guidance short, encouraging, and focused on one small step at a time.
 
 ## Why it exists
@@ -50,6 +50,7 @@ Try prompts such as:
 - “I want to improve my Swedish listening for everyday conversations.”
 - “I am a beginner and want a simple speaking plan.”
 - “Give me good Swedish videos for B1 reading practice.”
+- “Recommend a Swedish podcast for my commute.”
 - “I want a 2-week plan for learning Swedish for work.”
 - “I am A2 and want to improve my vocabulary before moving to Sweden.”
 - “I think I’m intermediate at Swedish, but I’m not sure where I really belong.”
@@ -57,7 +58,7 @@ Try prompts such as:
 A good response usually includes:
 
 - a short level check or suggestion,
-- 3–5 video or playlist recommendations,
+- 3–5 video, playlist, or podcast recommendations,
 - and one clear next step for the learner.
 
 A strong example looks like this:
@@ -68,7 +69,7 @@ A strong example looks like this:
 
 - Choosing a good next step for Swedish learning
 - Matching the learner to a level-appropriate path
-- Suggesting practical YouTube resources without overwhelming the learner
+- Suggesting practical YouTube and podcast resources without overwhelming the learner
 
 ## What it does not replace
 
@@ -79,7 +80,7 @@ A strong example looks like this:
 ## Layout
 
 - hjälp_om_svenska/SKILL.md — the skill instructions
-- hjälp_om_svenska/references/ — reference files with channel and speaking examples
+- hjälp_om_svenska/references/ — reference files with channel, podcast, and speaking examples
 - hjälp_om_svenska.skill — the packaged skill bundle
 - package_skill.py — builds the bundle
 

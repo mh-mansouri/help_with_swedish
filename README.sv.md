@@ -2,7 +2,7 @@
 
 [Svenska](README.sv.md) · [English](README.md) · [فارسی](README.fa.md)
 
-En Claude Skill som hjälper människor att hitta YouTube-klipp som passar deras nivå och mål när de lär sig svenska.
+En Claude Skill som hjälper människor att hitta YouTube-klipp och poddar som passar deras nivå och mål när de lär sig svenska.
 
 Många får svårt att välja rätt material när de lär sig ett nytt språk. Den här skillen gör det enklare genom att ge korta, konkreta förslag istället för slumpmässiga videor.
 
@@ -14,15 +14,15 @@ Många får svårt att välja rätt material när de lär sig ett nytt språk. D
 
 ## Demo
 
-En användare skriver: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.” Skillen svarar med en kort plan, några relevanta klipp och ett tydligt nästa steg.
+En användare skriver: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.” Skillen svarar med en kort plan, några relevanta klipp eller poddavsnitt och ett tydligt nästa steg.
 
 ![Skill-demo GIF](assets/skill-demo.gif)
 
 ## Vad den gör
 
 - Väljer en lärväg utifrån nivå, mål och färdighet.
-- Föreslår videor för lyssning, läsning, skrivning och tal.
-- Prioriterar praktiska kanaler som Peter SFI, Lätt Svenska med Oskar, UR Play och Swedish Shadowing.
+- Föreslår videor och poddavsnitt för lyssning, läsning, skrivning och tal.
+- Prioriterar praktiska kanaler som Peter SFI, Lätt Svenska med Oskar, UR Play och Swedish Shadowing, samt poddar som Radio Sweden på lätt svenska, Klartext och Fluent Fiction – Swedish.
 - Håller rekommendationerna korta, uppmuntrande och lätt att följa.
 
 ## Varför den finns
@@ -50,6 +50,7 @@ Testa frågor som:
 - “Jag vill bli bättre på att förstå vardagligt svenska.”
 - “Jag är nybörjare och vill ha en enkel plan för att prata.”
 - “Ge mig bra svenska videor för läsning på nivå B1.”
+- “Föreslå en svensk podd för min pendling.”
 - “Jag vill ha en plan på två veckor för att lära mig svenska inför jobbet.”
 - “Jag är på A2-nivå och vill förbättra mitt ordförråd inför en flytt till Sverige.”
 - “Jag tror att jag är intermediate i svenska, men jag är inte säker på var jag egentligen hör hemma.”
@@ -57,7 +58,7 @@ Testa frågor som:
 En bra respons brukar innehålla:
 
 - en kort nivåbedömning eller förslag,
-- 3–5 videor eller spellistor,
+- 3–5 videor, spellistor eller poddavsnitt,
 - och ett tydligt nästa steg för användaren.
 
 Ett starkt exempel ser ut så här:
@@ -68,7 +69,7 @@ Ett starkt exempel ser ut så här:
 
 - Att välja ett bra nästa steg i svenskstudier
 - Att matcha användaren till en nivåanpassad väg
-- Att föreslå praktiska YouTube-resurser utan att överväldiga användaren
+- Att föreslå praktiska YouTube- och poddresurser utan att överväldiga användaren
 
 ## Vad den inte ersätter
 
@@ -79,7 +80,7 @@ Ett starkt exempel ser ut så här:
 ## Struktur
 
 - hjälp_om_svenska/SKILL.md — instruktionerna för skillen
-- hjälp_om_svenska/references/ — referensfiler med exempel och tips
+- hjälp_om_svenska/references/ — referensfiler med kanaler, poddar och exempel
 - hjälp_om_svenska.skill — den paketerade skillfilen
 - package_skill.py — bygger paketet
 

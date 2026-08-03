@@ -26,6 +26,7 @@ def check_bundle() -> bool:
     required_files = [
         SKILL_DIR / "SKILL.md",
         SKILL_DIR / "references" / "channels-by-level.md",
+        SKILL_DIR / "references" / "podcasts-by-level.md",
         SKILL_DIR / "references" / "speaking-clips.md",
     ]
 
