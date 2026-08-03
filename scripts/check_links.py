@@ -1,9 +1,10 @@
 """Verify every recommendation in api/data.py still has a reachable URL.
 
-Some sites (e.g. sverigesradio.se) return 403 to any non-browser client
-(Akamai bot protection) even though the page works fine in a real browser --
-those are treated as unverifiable rather than failures. Everything else
-must return a successful or redirect status.
+Some Swedish public-broadcaster sites (sverigesradio.se, urplay.se) return
+403 to requests from datacenter/CI IP ranges -- confirmed manually to work
+fine from a real browser and a residential IP -- even though a plain HTTP
+client gets blocked. Those are treated as unverifiable rather than
+failures. Everything else must return a successful or redirect status.
 """
 import sys
 import urllib.error
@@ -16,7 +17,7 @@ if sys.stdout.encoding.lower() != "utf-8":
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "api"))
 from data import CHANNELS, PODCASTS  # noqa: E402
 
-BOT_PROTECTED_DOMAINS = ("sverigesradio.se",)
+BOT_PROTECTED_DOMAINS = ("sverigesradio.se", "urplay.se")
 
 HEADERS = {
     "User-Agent": (
