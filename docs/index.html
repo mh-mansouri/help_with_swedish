@@ -108,6 +108,34 @@
   }
   .item-name {
     font-weight: 600;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  a.item-name:hover {
+    text-decoration: underline;
+  }
+  details.level-guide {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+  }
+  details.level-guide summary {
+    cursor: pointer;
+    color: var(--accent);
+  }
+  table.level-table {
+    margin-top: 0.6rem;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  table.level-table th, table.level-table td {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.level-table th {
+    color: var(--muted);
+    font-weight: 600;
   }
   .tag {
     display: inline-block;
@@ -143,6 +171,23 @@
 <main>
   <h1>Find Swedish learning resources</h1>
   <p class="lead">Pick a level and a skill. No account, no chat app — just a list of YouTube channels and podcasts.</p>
+
+  <details class="level-guide">
+    <summary>Not sure what A1–C2 mean?</summary>
+    <table class="level-table">
+      <thead>
+        <tr><th>Level</th><th>Stage</th><th>What you can do</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>A1</td><td>Beginner</td><td>Understand and use very basic phrases. Introduce yourself and ask simple questions.</td></tr>
+        <tr><td>A2</td><td>Elementary</td><td>Handle simple, everyday exchanges like shopping, directions, and routines.</td></tr>
+        <tr><td>B1</td><td>Intermediate</td><td>Manage most situations while traveling or at work. Describe experiences and plans.</td></tr>
+        <tr><td>B2</td><td>Upper intermediate</td><td>Interact fluently with native speakers. Understand the main ideas of complex text.</td></tr>
+        <tr><td>C1</td><td>Advanced</td><td>Express yourself fluently and spontaneously on demanding academic or professional topics.</td></tr>
+        <tr><td>C2</td><td>Proficient</td><td>Understand virtually everything heard or read, with near-native fluency.</td></tr>
+      </tbody>
+    </table>
+  </details>
 
   <form id="form">
     <div class="field">
@@ -206,9 +251,14 @@ function renderResults(items) {
   for (const item of items) {
     const li = document.createElement("li");
 
-    const nameEl = document.createElement("span");
+    const nameEl = document.createElement(item.url ? "a" : "span");
     nameEl.className = "item-name";
     nameEl.textContent = item.name;
+    if (item.url) {
+      nameEl.href = item.url;
+      nameEl.target = "_blank";
+      nameEl.rel = "noopener";
+    }
     li.appendChild(nameEl);
 
     const tagEl = document.createElement("span");

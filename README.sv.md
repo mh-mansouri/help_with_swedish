@@ -6,6 +6,19 @@ En Claude Skill som hjälper människor att hitta YouTube-klipp och poddar som p
 
 Många får svårt att välja rätt material när de lär sig ett nytt språk. Den här skillen gör det enklare genom att ge korta, konkreta förslag istället för slumpmässiga videor.
 
+## Vad betyder A1–C2?
+
+Detta är CEFR-nivåer, den europeiska standardskalan (som även används i SFI) för att beskriva hur mycket av ett språk du kan. Är du osäker på vilken nivå som passar dig? Skillen, prompten och webbsidan ställer några korta frågor för att ta reda på det åt dig.
+
+| Nivå | Steg | Vad du klarar av |
+|---|---|---|
+| A1 | Nybörjare | Förstå och använda mycket enkla fraser. Presentera dig själv och ställa enkla frågor. |
+| A2 | Grundläggande | Klara enkla vardagssituationer som att handla, fråga om vägen och vardagsrutiner. |
+| B1 | Mellannivå | Klara de flesta situationer på resa eller i arbetet. Beskriva upplevelser och planer. |
+| B2 | Övre mellannivå | Kommunicera flytande med modersmålstalare. Förstå huvudinnehållet i komplexa texter. |
+| C1 | Avancerad | Uttrycka dig flytande och spontant om krävande akademiska eller yrkesmässiga ämnen. |
+| C2 | Mycket avancerad | Förstå i princip allt du hör eller läser, med nästan modersmålsnivå. |
+
 ## Testa direkt — fungerar i vilken AI-chatt som helst
 
 Inget att ladda ner eller installera. Kopiera rutan nedan, klistra in den som ditt första meddelande i ChatGPT, Gemini, Claude, Copilot eller någon annan AI-chatt, och ställ sedan din fråga. Texten i rutan är instruktioner till AI:n och är därför på engelska, men AI:n svarar dig ändå på svenska (eller vilket språk du skriver på).

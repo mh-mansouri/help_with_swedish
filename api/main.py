@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from data import CHANNELS, LEVELS, PODCASTS, SPEAKING_CLIPS
+from data import CHANNELS, LEVEL_GUIDE, LEVELS, PODCASTS, SPEAKING_CLIPS
 
 app = FastAPI(
     title="Help with Swedish API",
@@ -40,6 +40,11 @@ def health():
 @app.get("/levels")
 def get_levels():
     return LEVELS
+
+
+@app.get("/levels/guide")
+def get_levels_guide():
+    return LEVEL_GUIDE
 
 
 @app.get("/channels")

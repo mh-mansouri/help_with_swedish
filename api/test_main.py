@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 
+from data import LEVELS
 from main import app
 
 client = TestClient(app)
@@ -38,3 +39,19 @@ def test_recommendations_mix_channels_and_podcasts():
     assert resp.status_code == 200
     types = {r["type"] for r in resp.json()}
     assert types == {"channel", "podcast"}
+
+
+def test_recommendations_include_urls():
+    resp = client.get("/recommendations", params={"level": "A2", "limit": 20})
+    assert resp.status_code == 200
+    by_name = {r["name"]: r["url"] for r in resp.json()}
+    assert by_name["Lätt Svenska med Oskar"].startswith("https://")
+    assert by_name["Radio Sweden på lätt svenska"].startswith("https://")
+
+
+def test_levels_guide_covers_all_levels():
+    resp = client.get("/levels/guide")
+    assert resp.status_code == 200
+    guide = resp.json()
+    assert [g["level"] for g in guide] == LEVELS
+    assert all(g["description"] for g in guide)
