@@ -5,8 +5,8 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-SKILL_DIR = ROOT / "hjälp_om_svenska"
-BUNDLE = ROOT / "hjälp_om_svenska.skill"
+SKILL_DIR = ROOT / "swedish_mentor"
+BUNDLE = ROOT / "swedish_mentor.skill"
 
 
 def build_bundle(bundle_path: Path = BUNDLE) -> Path:

@@ -6,9 +6,17 @@
 
 بیشتر راهنمایی‌های یادگیری زبان یا خیلی کلی هستند یا خیلی شلوغ. این Skill با پرسیدن سطح کاربر و هدف او، پیشنهادهای دقیق‌تر و کاربردی‌تری ارائه می‌دهد.
 
-## استفاده در ۳۰ ثانیه
+## همین حالا امتحان کنید — در هر چت هوش مصنوعی کار می‌کند
 
-1. [hjälp_om_svenska.skill](hjälp_om_svenska.skill) را دانلود کنید.
+نیازی به دانلود یا نصب نیست. متن داخل کادر را کپی کنید، آن را به‌عنوان اولین پیام در ChatGPT، Gemini، Claude، Copilot یا هر چت هوش مصنوعی دیگری paste کنید، سپس سؤال خود را بپرسید. متن داخل کادر دستورالعملی برای هوش مصنوعی است و به همین دلیل به انگلیسی نوشته شده، اما هوش مصنوعی همچنان به فارسی (یا هر زبانی که شما بنویسید) پاسخ می‌دهد.
+
+متن کامل را در [universal-prompt.md](universal-prompt.md) ببینید (همان محتوای README انگلیسی).
+
+## نصب به‌عنوان یک Claude Skill دائمی
+
+اگر می‌خواهید هر بار متن را paste نکنید و به‌جایش در Claude به‌صورت خودکار فعال شود:
+
+1. [swedish_mentor.skill](swedish_mentor.skill) را دانلود کنید.
 2. آن را در Claude باز کنید.
 3. برای مثال این سؤال را بپرسید: «من در سطح A2 هستم و می‌خواهم قبل از سفر به سوئد صحبت کردنم را بهتر کنم.»
 
@@ -40,7 +48,7 @@
 
 ## نصب
 
-گزینه A — یک فایل: [hjälp_om_svenska.skill](hjälp_om_svenska.skill) را دانلود کنید و در Claude باز کنید.
+گزینه A — یک فایل: [swedish_mentor.skill](swedish_mentor.skill) را دانلود کنید و در Claude باز کنید.
 
 گزینه B — بسته‌بندی محلی:
 
@@ -88,9 +96,9 @@ python package_skill.py --install --skills-dir <path-to-skills-folder>
 
 ## ساختار
 
-- hjälp_om_svenska/SKILL.md — دستورالعمل‌های Skill
-- hjälp_om_svenska/references/ — فایل‌های مرجع با کانال‌ها، پادکست‌ها و مثال‌ها
-- hjälp_om_svenska.skill — بسته‌ی آماده‌ی Skill
+- swedish_mentor/SKILL.md — دستورالعمل‌های Skill
+- swedish_mentor/references/ — فایل‌های مرجع با کانال‌ها، پادکست‌ها و مثال‌ها
+- swedish_mentor.skill — بسته‌ی آماده‌ی Skill
 - package_skill.py — بسته را می‌سازد
 
 ## ساخت

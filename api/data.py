@@ -1,4 +1,4 @@
-"""Structured mirror of the reference data in hjälp_om_svenska/references/.
+"""Structured mirror of the reference data in swedish_mentor/references/.
 
 Kept in sync by hand with channels-by-level.md, podcasts-by-level.md, and
 speaking-clips.md so the API and the Claude skill recommend the same sources.

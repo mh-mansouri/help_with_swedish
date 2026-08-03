@@ -1,5 +1,5 @@
 ---
-name: hjälp_om_svenska
+name: swedish_mentor
 description: Mentor Swedish language learners by selecting YouTube video clips and podcast episodes by CEFR level and skill (listening, reading, writing, speaking). Triggers on Swedish learning path, YouTube clips for Swedish, podcasts for Swedish, SFI videos, level assessment for svenska, or requests for Peter SFI / Lätt Svenska med Oskar / Radio Sweden på lätt svenska / Klartext recommendations.
 ---
 

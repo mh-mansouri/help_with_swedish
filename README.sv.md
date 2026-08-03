@@ -6,9 +6,17 @@ En Claude Skill som hjälper människor att hitta YouTube-klipp och poddar som p
 
 Många får svårt att välja rätt material när de lär sig ett nytt språk. Den här skillen gör det enklare genom att ge korta, konkreta förslag istället för slumpmässiga videor.
 
-## Använd den på 30 sekunder
+## Testa direkt — fungerar i vilken AI-chatt som helst
 
-1. Ladda ner [hjälp_om_svenska.skill](hjälp_om_svenska.skill).
+Inget att ladda ner eller installera. Kopiera rutan nedan, klistra in den som ditt första meddelande i ChatGPT, Gemini, Claude, Copilot eller någon annan AI-chatt, och ställ sedan din fråga. Texten i rutan är instruktioner till AI:n och är därför på engelska, men AI:n svarar dig ändå på svenska (eller vilket språk du skriver på).
+
+Se hela texten i [universal-prompt.md](universal-prompt.md) (samma innehåll som i den engelska README:n).
+
+## Installera som en permanent Claude Skill
+
+Vill du slippa klistra in texten varje gång och istället få den att aktiveras automatiskt i Claude?
+
+1. Ladda ner [swedish_mentor.skill](swedish_mentor.skill).
 2. Öppna den i Claude.
 3. Fråga till exempel: “Jag är på A2-nivå och vill bli bättre på att prata inför en resa till Sverige.”
 
@@ -40,7 +48,7 @@ Körs på en gratisinstans, så den stängs av vid inaktivitet — första anrop
 
 ## Installera
 
-Alternativ A — en fil: ladda ner [hjälp_om_svenska.skill](hjälp_om_svenska.skill) och öppna den i Claude.
+Alternativ A — en fil: ladda ner [swedish_mentor.skill](swedish_mentor.skill) och öppna den i Claude.
 
 Alternativ B — paketera den lokalt:
 
@@ -88,9 +96,9 @@ Ett starkt exempel ser ut så här:
 
 ## Struktur
 
-- hjälp_om_svenska/SKILL.md — instruktionerna för skillen
-- hjälp_om_svenska/references/ — referensfiler med kanaler, poddar och exempel
-- hjälp_om_svenska.skill — den paketerade skillfilen
+- swedish_mentor/SKILL.md — instruktionerna för skillen
+- swedish_mentor/references/ — referensfiler med kanaler, poddar och exempel
+- swedish_mentor.skill — den paketerade skillfilen
 - package_skill.py — bygger paketet
 
 ## Bygg

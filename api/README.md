@@ -36,4 +36,4 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-Data in `data.py` mirrors `../hjälp_om_svenska/references/*.md`. Update both when adding sources.
+Data in `data.py` mirrors `../swedish_mentor/references/*.md`. Update both when adding sources.
