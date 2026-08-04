@@ -103,14 +103,14 @@ Now greet the user in character and ask what they'd like to work on.
 
 This is the same content as [universal-prompt.md](universal-prompt.md) — use whichever is more convenient to copy from.
 
-## No account, no AI chat — just a webpage
+## No account needed — a webpage with live chat, or no AI at all
 
-Don't want to use any AI chat at all? Pick your level and skill on a plain webpage and get the same list back. The page reads in Swedish (default), English, or Persian — switch anytime with the buttons at the top, including a right-to-left layout for Persian:
+Don't want to install a Skill or copy-paste a prompt? The webpage has its own live chat, so you can just ask it questions directly, or skip AI entirely and pick your level and skill from a plain list instead. Reads in Swedish (default), English, or Persian — switch anytime with the buttons at the top, including a right-to-left layout for Persian:
 
 - Live: https://mh-mansouri.github.io/help_with_swedish/
 - Or download [docs/index.html](docs/index.html) and open it in any browser — no server, no install, no sign-up.
 
-It calls the same [Live API](#live-api) described below, so results match what the Skill and the copy-paste prompt recommend.
+Both the chat and the plain list call the same [Live API](#live-api) described below, so results match what the Skill and the copy-paste prompt recommend. Chat is powered by a free model on OpenRouter — see [`POST /chat`](api/README.md#post-chat) for how it's wired up and how to run your own instance.
 
 ## Install as a persistent Claude Skill
 
@@ -165,7 +165,7 @@ The same recommendations are also available as a REST API, deployed on Render:
 - Base URL: https://help-with-swedish-api.onrender.com
 - Interactive docs: https://help-with-swedish-api.onrender.com/docs
 
-Runs on a free instance, so it spins down after inactivity — the first request after a while can take ~50 seconds. See [api/README.md](api/README.md) for endpoints and local setup.
+Runs on a free instance, so it spins down after inactivity — the first request after a while can take ~50 seconds. Includes `POST /chat`, the mentor talking for itself via a free model (Google's Gemma 4 31B) on [OpenRouter](https://openrouter.ai) — off until a deployment sets `HWS_OPENROUTER_API_KEY` (a project-prefixed name, not OpenRouter's own generic one, so it never collides with another app's key). See [api/README.md](api/README.md) for endpoints and local setup.
 
 ## Use it
 

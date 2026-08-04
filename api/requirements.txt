@@ -1,2 +1,6 @@
 fastapi>=0.110
 uvicorn[standard]>=0.27
+# Only needed for POST /chat, which calls a free model through OpenRouter's
+# OpenAI-compatible endpoint. Absent HWS_OPENROUTER_API_KEY disables that route
+# without failing startup, so this stays a hard requirement rather than optional.
+openai>=1.0.0

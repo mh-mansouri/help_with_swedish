@@ -25,14 +25,14 @@ Inget att ladda ner eller installera. Kopiera rutan nedan, klistra in den som di
 
 Se hela texten i [universal-prompt.md](universal-prompt.md) (samma innehåll som i den engelska README:n).
 
-## Inget konto, ingen AI-chatt — bara en webbsida
+## Inget konto behövs — en webbsida med livechatt, eller helt utan AI
 
-Vill du inte använda någon AI-chatt alls? Välj din nivå och färdighet på en enkel webbsida och få samma lista tillbaka. Sidan finns på svenska (standard), engelska och persiska — byt språk när som helst med knapparna högst upp, med höger-till-vänster-layout för persiska:
+Vill du slippa installera en Skill eller klistra in en prompt? Webbsidan har en egen livechatt, så du kan fråga direkt — eller hoppa över AI:n helt och välja din nivå och färdighet från en enkel lista istället. Finns på svenska (standard), engelska och persiska — byt språk när som helst med knapparna högst upp, med höger-till-vänster-layout för persiska:
 
 - Live: https://mh-mansouri.github.io/help_with_swedish/
 - Eller ladda ner [docs/index.html](docs/index.html) och öppna den i valfri webbläsare — ingen server, ingen installation, inget konto.
 
-Den anropar samma [Live API](#live-api) som beskrivs nedan, så resultaten matchar det som skillen och copy-paste-prompten rekommenderar.
+Både chatten och den enkla listan anropar samma [Live API](#live-api) som beskrivs nedan, så resultaten matchar det som skillen och copy-paste-prompten rekommenderar. Chatten drivs av en kostnadsfri modell via OpenRouter — se [`POST /chat`](api/README.md#post-chat) för hur den är kopplad och hur du kör din egen instans.
 
 ## Installera som en permanent Claude Skill
 
@@ -87,7 +87,7 @@ Samma rekommendationer finns också som ett REST API, driftsatt på Render:
 - Bas-URL: https://help-with-swedish-api.onrender.com
 - Interaktiv dokumentation: https://help-with-swedish-api.onrender.com/docs
 
-Körs på en gratisinstans, så den stängs av vid inaktivitet — första anropet efter ett tag kan ta ~50 sekunder. Se [api/README.md](api/README.md) för endpoints och lokal installation.
+Körs på en gratisinstans, så den stängs av vid inaktivitet — första anropet efter ett tag kan ta ~50 sekunder. Innehåller `POST /chat`, mentorn som talar för sig själv via en kostnadsfri modell (Googles Gemma 4 31B) på [OpenRouter](https://openrouter.ai) — avstängd tills en driftsättning sätter `HWS_OPENROUTER_API_KEY` (ett projekt-prefixat namn, inte OpenRouters egna generiska, så det aldrig krockar med en annan apps nyckel). Se [api/README.md](api/README.md) för endpoints och lokal installation.
 
 ## Hur du använder den
 

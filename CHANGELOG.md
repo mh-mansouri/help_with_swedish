@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Added live chat: `POST /chat` on the API, talking as the mentor via a free model (Google's Gemma 4 31B) on OpenRouter, off until a deployment sets `HWS_OPENROUTER_API_KEY` (project-prefixed rather than OpenRouter's generic `OPENROUTER_API_KEY`, so it can't collide with another app's key on a shared host). The model gets a `get_recommendations` tool wired to `data.py` so it can only cite a real channel or podcast, never an invented one. New `GET /instructions` returns the same system prompt for your own model. The webpage gained a trilingual chat box that calls it, alongside the existing no-AI form.
 - Added CI (`.github/workflows/ci.yml`): runs the API test suite on every push/PR, and a weekly job that checks every recommended channel/podcast link still resolves (`scripts/check_links.py`).
 - The webpage now auto-detects the visitor's browser language (Swedish, English, or Persian) on first visit, falling back to Swedish for anything else; a manual choice is still remembered via localStorage.
 - Added Open Graph / Twitter Card meta tags to the webpage, updated per language, so sharing the link shows a proper title/description/preview image.

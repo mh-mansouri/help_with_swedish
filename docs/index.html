@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hjälp med svenska — snabba rekommendationer</title>
-<meta name="description" content="Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.">
+<meta name="description" content="Chatta direkt med en mentor för svenska, eller hoppa över AI:n och välj nivå och färdighet för rekommendationer på YouTube och poddar. Inget konto.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mh-mansouri.github.io/help_with_swedish/">
 <meta property="og:image" content="https://raw.githubusercontent.com/mh-mansouri/help_with_swedish/master/assets/skill-demo.gif">
 <meta property="og:title" id="ogTitle" content="Hjälp med svenska — snabba rekommendationer">
-<meta property="og:description" id="ogDescription" content="Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.">
+<meta property="og:description" id="ogDescription" content="Chatta direkt med en mentor för svenska, eller hoppa över AI:n och välj nivå och färdighet för rekommendationer på YouTube och poddar. Inget konto.">
 <meta property="og:locale" id="ogLocale" content="sv_SE">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/mh-mansouri/help_with_swedish/master/assets/skill-demo.gif">
 <meta name="twitter:title" id="twitterTitle" content="Hjälp med svenska — snabba rekommendationer">
-<meta name="twitter:description" id="twitterDescription" content="Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.">
+<meta name="twitter:description" id="twitterDescription" content="Chatta direkt med en mentor för svenska, eller hoppa över AI:n och välj nivå och färdighet för rekommendationer på YouTube och poddar. Inget konto.">
 <style>
   :root {
     color-scheme: light dark;
@@ -194,6 +194,84 @@
     color: var(--muted);
   }
   footer a { color: var(--accent); }
+
+  h2 {
+    font-size: 1.05rem;
+    margin: 2rem 0 0.5rem;
+  }
+  .chat {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card-bg);
+    padding: 0.9rem;
+  }
+  .chat-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 340px;
+    overflow-y: auto;
+    margin-bottom: 0.75rem;
+  }
+  .chat-log:empty { margin-bottom: 0; }
+  .msg {
+    max-width: 85%;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: #fff;
+  }
+  .msg.assistant {
+    align-self: flex-start;
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .msg.error {
+    align-self: flex-start;
+    background: var(--bg);
+    border: 1px solid #c0392b;
+    color: #c0392b;
+  }
+  .msg.pending { color: var(--muted); font-style: italic; }
+  [dir="rtl"] .msg.user { align-self: flex-start; }
+  [dir="rtl"] .msg.assistant, [dir="rtl"] .msg.error { align-self: flex-end; }
+  .chat-form {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .chat-form input {
+    flex: 1;
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 0.95rem;
+  }
+  .chat-form button {
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .chat-form button:disabled, .chat-form input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .chat-note {
+    margin: 0.6rem 0 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
 </style>
 </head>
 <body>
@@ -207,6 +285,17 @@
   <h1 id="h1">Hitta resurser för att lära dig svenska</h1>
   <p class="lead" id="lead">Välj en nivå och en färdighet. Inget konto, ingen AI-chatt — bara en lista med YouTube-kanaler och poddar.</p>
 
+  <h2 id="askH2">Fråga mentorn</h2>
+  <div class="chat" id="chat">
+    <div class="chat-log" id="chatLog" role="log" aria-live="polite"></div>
+    <form class="chat-form" id="chatForm">
+      <input type="text" id="chatInput" autocomplete="off" maxlength="4000">
+      <button type="submit" id="chatSend">Skicka</button>
+    </form>
+    <p class="chat-note" id="chatNote"></p>
+  </div>
+
+  <h2 id="browseH2">Eller bläddra utan chatt</h2>
   <details class="level-guide">
     <summary id="cefrSummary">Inte säker på vad A1–C2 betyder?</summary>
     <table class="level-table">
@@ -280,9 +369,18 @@ const I18N = {
     dir: "ltr",
     ogLocale: "en_US",
     pageTitle: "Help with Swedish — quick recommendations",
-    metaDescription: "Pick your Swedish level and skill to get YouTube and podcast recommendations. No sign-up, no chat app.",
+    metaDescription: "Chat live with a Swedish learning mentor, or skip the AI and pick your level and skill for YouTube and podcast recommendations. No sign-up.",
     h1: "Find Swedish learning resources",
-    lead: "Pick a level and a skill. No account, no chat app — just a list of YouTube channels and podcasts.",
+    lead: "Chat with the mentor for a live, personalized plan — or skip the AI and just pick a level and skill for a plain list of YouTube channels and podcasts.",
+    askH2: "Ask the mentor",
+    browseH2: "Or browse without chat",
+    chatPlaceholder: "e.g. I'm A2 and want to improve my speaking before a trip to Sweden",
+    chatSend: "Send",
+    chatThinking: "Thinking…",
+    chatHint: "Answers come from a free AI model — replies can take a few seconds, and are limited to a few messages per minute.",
+    chatNotConfigured: "Live chat isn't turned on for this deployment yet. Try the copy-paste prompt instead — see the footer below — or browse without chat underneath.",
+    chatRateLimited: "Too many messages at once — wait a minute and try again.",
+    chatError: "Something went wrong reaching the mentor. Try again in a moment.",
     cefrSummary: "Not sure what A1–C2 mean?",
     thLevel: "Level",
     thStage: "Stage",
@@ -307,9 +405,18 @@ const I18N = {
     dir: "ltr",
     ogLocale: "sv_SE",
     pageTitle: "Hjälp med svenska — snabba rekommendationer",
-    metaDescription: "Välj din svenska nivå och färdighet för att få rekommendationer på YouTube och poddar. Inget konto, ingen chattapp.",
+    metaDescription: "Chatta direkt med en mentor för svenska, eller hoppa över AI:n och välj nivå och färdighet för rekommendationer på YouTube och poddar. Inget konto.",
     h1: "Hitta resurser för att lära dig svenska",
-    lead: "Välj en nivå och en färdighet. Inget konto, ingen AI-chatt — bara en lista med YouTube-kanaler och poddar.",
+    lead: "Chatta med mentorn för en direkt, personlig plan — eller hoppa över AI:n och välj bara en nivå och färdighet för en enkel lista med YouTube-kanaler och poddar.",
+    askH2: "Fråga mentorn",
+    browseH2: "Eller bläddra utan chatt",
+    chatPlaceholder: "t.ex. jag är A2 och vill förbättra mitt tal inför en resa till Sverige",
+    chatSend: "Skicka",
+    chatThinking: "Tänker…",
+    chatHint: "Svaren kommer från en kostnadsfri AI-modell — svar kan ta några sekunder och är begränsade till några meddelanden per minut.",
+    chatNotConfigured: "Livechatten är inte påslagen för den här driftsättningen än. Prova copy-paste-prompten istället — se sidfoten nedan — eller bläddra utan chatt nedanför.",
+    chatRateLimited: "För många meddelanden på en gång — vänta en minut och försök igen.",
+    chatError: "Något gick fel när mentorn kontaktades. Försök igen om en stund.",
     cefrSummary: "Inte säker på vad A1–C2 betyder?",
     thLevel: "Nivå",
     thStage: "Steg",
@@ -334,9 +441,18 @@ const I18N = {
     dir: "rtl",
     ogLocale: "fa_IR",
     pageTitle: "کمک به زبان سوئدی — پیشنهادهای سریع",
-    metaDescription: "سطح و مهارت سوئدی خود را انتخاب کنید تا پیشنهادهای یوتیوب و پادکست دریافت کنید. بدون ثبت‌نام، بدون اپلیکیشن چت.",
+    metaDescription: "با یک مربی زبان سوئدی به‌صورت زنده چت کنید، یا هوش مصنوعی را نادیده بگیرید و سطح و مهارت خود را برای پیشنهادهای یوتیوب و پادکست انتخاب کنید. بدون ثبت‌نام.",
     h1: "منابع یادگیری سوئدی را پیدا کنید",
-    lead: "سطح و مهارت خود را انتخاب کنید. بدون حساب کاربری، بدون چت هوش مصنوعی — فقط یک لیست از کانال‌های یوتیوب و پادکست‌ها.",
+    lead: "با مربی چت کنید تا یک برنامه زنده و شخصی‌سازی‌شده بگیرید — یا هوش مصنوعی را نادیده بگیرید و فقط سطح و مهارت را انتخاب کنید تا یک لیست ساده از کانال‌های یوتیوب و پادکست‌ها دریافت کنید.",
+    askH2: "از مربی بپرسید",
+    browseH2: "یا بدون چت مرور کنید",
+    chatPlaceholder: "مثلاً سطح من A2 است و می‌خواهم پیش از سفر به سوئد صحبت‌کردنم را تقویت کنم",
+    chatSend: "ارسال",
+    chatThinking: "در حال فکر کردن…",
+    chatHint: "پاسخ‌ها از یک مدل هوش مصنوعی رایگان می‌آیند — ارسال پاسخ ممکن است چند ثانیه طول بکشد و به چند پیام در دقیقه محدود است.",
+    chatNotConfigured: "چت زنده هنوز برای این استقرار فعال نشده است. در عوض پرامپت کپی-پیست را امتحان کنید — به پانوشت زیر مراجعه کنید — یا بدون چت در پایین مرور کنید.",
+    chatRateLimited: "پیام‌های زیادی پشت سر هم — یک دقیقه صبر کنید و دوباره امتحان کنید.",
+    chatError: "ارتباط با مربی با خطا مواجه شد. کمی بعد دوباره امتحان کنید.",
     cefrSummary: "مطمئن نیستید سطوح A1 تا C2 یعنی چه؟",
     thLevel: "سطح",
     thStage: "مرحله",
@@ -362,6 +478,13 @@ const I18N = {
 const langButtons = document.querySelectorAll(".lang-switch button");
 const h1El = document.getElementById("h1");
 const leadEl = document.getElementById("lead");
+const askH2El = document.getElementById("askH2");
+const browseH2El = document.getElementById("browseH2");
+const chatLogEl = document.getElementById("chatLog");
+const chatFormEl = document.getElementById("chatForm");
+const chatInputEl = document.getElementById("chatInput");
+const chatSendEl = document.getElementById("chatSend");
+const chatNoteEl = document.getElementById("chatNote");
 const cefrSummaryEl = document.getElementById("cefrSummary");
 const thLevelEl = document.getElementById("thLevel");
 const thStageEl = document.getElementById("thStage");
@@ -379,6 +502,78 @@ const footerEl = document.getElementById("footer");
 
 let currentLang = "sv";
 let lastItems = null;
+let chatHistory = []; // {role, content}, oldest first — resent each turn, the API keeps no session state
+let chatBusy = false;
+let chatDisabled = false;
+
+function appendChatMsg(cls, text) {
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  div.textContent = text;
+  chatLogEl.appendChild(div);
+  chatLogEl.scrollTop = chatLogEl.scrollHeight;
+  return div;
+}
+
+async function sendChatMessage(message) {
+  const t = I18N[currentLang];
+  chatBusy = true;
+  chatInputEl.disabled = true;
+  chatSendEl.disabled = true;
+
+  appendChatMsg("user", message);
+  const pending = appendChatMsg("assistant pending", t.chatThinking);
+
+  try {
+    const res = await fetch(API_BASE + "/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: message, history: chatHistory }),
+    });
+    if (res.status === 501) {
+      pending.remove();
+      chatDisabled = true;
+      chatInputEl.disabled = true;
+      chatSendEl.disabled = true;
+      chatNoteEl.textContent = t.chatNotConfigured;
+      return;
+    }
+    if (res.status === 429) {
+      pending.className = "msg error";
+      pending.textContent = t.chatRateLimited;
+      return;
+    }
+    if (!res.ok) {
+      pending.className = "msg error";
+      pending.textContent = t.chatError;
+      return;
+    }
+    const data = await res.json();
+    pending.className = "msg assistant";
+    pending.textContent = data.reply;
+    chatHistory.push({ role: "user", content: message });
+    chatHistory.push({ role: "assistant", content: data.reply });
+    if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+  } catch (err) {
+    pending.className = "msg error";
+    pending.textContent = t.chatError;
+  } finally {
+    chatBusy = false;
+    if (!chatDisabled) {
+      chatInputEl.disabled = false;
+      chatSendEl.disabled = false;
+      chatInputEl.focus();
+    }
+  }
+}
+
+chatFormEl.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const message = chatInputEl.value.trim();
+  if (!message || chatBusy || chatDisabled) return;
+  chatInputEl.value = "";
+  sendChatMessage(message);
+});
 
 function buildCefrTable(lang) {
   cefrBodyEl.textContent = "";
@@ -493,6 +688,11 @@ function applyLanguage(lang) {
 
   h1El.textContent = t.h1;
   leadEl.textContent = t.lead;
+  askH2El.textContent = t.askH2;
+  browseH2El.textContent = t.browseH2;
+  chatInputEl.placeholder = t.chatPlaceholder;
+  chatSendEl.textContent = t.chatSend;
+  chatNoteEl.textContent = chatDisabled ? t.chatNotConfigured : t.chatHint;
   cefrSummaryEl.textContent = t.cefrSummary;
   thLevelEl.textContent = t.thLevel;
   thStageEl.textContent = t.thStage;

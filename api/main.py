@@ -1,20 +1,52 @@
-from typing import Optional
+import json
+import os
+import re
+import threading
+import time
+from pathlib import Path
+from typing import Literal, Optional
 
-from fastapi import FastAPI, HTTPException, Query
+import openai
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
 from data import CHANNELS, LEVEL_GUIDE, LEVELS, PODCASTS, SPEAKING_CLIPS
+
+HERE = Path(__file__).resolve().parent
+
+# The same text a learner would copy-paste into any AI chat, reused as the
+# system prompt so a live /chat answer never drifts from that version.
+UNIVERSAL_PROMPT = HERE.parent / "universal-prompt.md"
+
+# POST /chat is off until this is set — no key means no accidental spend, and
+# every other route keeps working. Routed through OpenRouter rather than
+# calling a provider directly, so this is an OpenRouter key
+# (openrouter.ai/keys), not a Google one — the two are not interchangeable.
+# Prefixed like the other settings below (HWS_) rather than the bare
+# OPENROUTER_API_KEY OpenRouter's own docs suggest, so it can't collide with
+# another app's key of the same generic name on a shared host or dashboard.
+HWS_OPENROUTER_API_KEY = os.environ.get("HWS_OPENROUTER_API_KEY", "")
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+# Gemma 4 31B on OpenRouter's free tier: no cost, tool calling, 256K context —
+# plenty for a few turns of level-appropriate recommendations.
+CHAT_MODEL = os.environ.get("HWS_CHAT_MODEL", "google/gemma-4-31b-it:free")
+CHAT_MAX_TOKENS = int(os.environ.get("HWS_CHAT_MAX_TOKENS", "1024"))
+CHAT_MAX_TOOL_ROUNDS = 4
+# Its own bucket, tighter than a plain GET: a chat turn calls a billed
+# (here, free-tier but still rate-limited) model, the other routes don't.
+CHAT_RATE_LIMIT_PER_MIN = int(os.environ.get("HWS_CHAT_RATE_LIMIT_PER_MIN", "6"))
 
 app = FastAPI(
     title="Help with Swedish API",
     description="Level-appropriate YouTube channels, podcasts, and speaking clips for Swedish learners.",
-    version="0.2.0",
+    version="0.3.0",
 )
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -30,6 +62,136 @@ def _filter(resources: list[dict], level: Optional[str], skill: Optional[str]) -
         skill = skill.lower()
         result = [r for r in result if skill in [s.lower() for s in r["skills"]]]
     return result
+
+
+def _recommendations(level: Optional[str], skill: Optional[str], limit: int) -> list[dict]:
+    resources = [{**c, "type": "channel"} for c in CHANNELS] + [{**p, "type": "podcast"} for p in PODCASTS]
+    return _filter(resources, level, skill)[:limit]
+
+
+def load_chat_instructions() -> str:
+    """The universal copy-paste prompt's fenced block, verbatim — the same
+    text a learner would paste as the first message into any AI chat, reused
+    as /chat's system prompt so a live answer never drifts from that version."""
+    if not UNIVERSAL_PROMPT.is_file():
+        raise HTTPException(500, f"instructions missing: {UNIVERSAL_PROMPT}")
+    text = UNIVERSAL_PROMPT.read_text(encoding="utf-8")
+    match = re.search(r"```text\n(.*?)\n```", text, re.DOTALL)
+    if not match:
+        raise HTTPException(500, f"could not find fenced prompt in {UNIVERSAL_PROMPT}")
+    return match.group(1)
+
+
+_chat_client: openai.OpenAI | None = None
+
+
+def _chat_client_or_501() -> openai.OpenAI:
+    """Lazy singleton so a key-less deployment never touches the SDK.
+    OpenRouter speaks the OpenAI Chat Completions shape, so this is an
+    openai.OpenAI client pointed at OpenRouter's base URL."""
+    global _chat_client
+    if not HWS_OPENROUTER_API_KEY:
+        raise HTTPException(501, "chat is not configured on this server: set HWS_OPENROUTER_API_KEY")
+    if _chat_client is None:
+        _chat_client = openai.OpenAI(
+            api_key=HWS_OPENROUTER_API_KEY,
+            base_url=OPENROUTER_BASE_URL,
+            default_headers={
+                "HTTP-Referer": "https://github.com/mh-mansouri/help_with_swedish",
+                "X-Title": "Help with Swedish",
+            },
+        )
+    return _chat_client
+
+
+# Offered as a tool rather than left to the model's memory, so a live chat
+# reply can only cite a channel or podcast that is actually in data.py — the
+# same rule the skill and the universal prompt already state in words.
+CHAT_TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_recommendations",
+            "description": (
+                "Look up real, verified YouTube channels and podcasts for a CEFR "
+                "level and optional skill. Always call this before naming a "
+                "channel, podcast, or link — never invent one from memory."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "level": {"type": "string", "enum": LEVELS, "description": "CEFR level, e.g. A2"},
+                    "skill": {
+                        "type": "string",
+                        "description": "listening, speaking, reading, writing, grammar, pronunciation, or vocabulary",
+                    },
+                    "limit": {"type": "integer", "minimum": 1, "maximum": 20, "description": "default 6"},
+                },
+                "required": ["level"],
+            },
+        },
+    },
+]
+
+
+def _run_chat_tool(name: str, tool_input: dict) -> tuple[str, bool]:
+    """Run one chat tool call through the same data and filter the REST
+    routes use, so a chat answer and a direct API call never disagree.
+    Returns (content, is_error) — errors go back to the model as text, not
+    raised, so it can explain the problem instead of the turn just failing."""
+    if name != "get_recommendations":
+        return f"error: unknown tool '{name}'", True
+    try:
+        limit = int(tool_input.get("limit", 6))
+        items = _recommendations(tool_input.get("level"), tool_input.get("skill"), max(1, min(limit, 20)))
+    except HTTPException as exc:
+        return f"error: {exc.detail}", True
+    return json.dumps(items, ensure_ascii=False), False
+
+
+_chat_hits: dict[str, list[float]] = {}
+_chat_hits_lock = threading.Lock()
+
+
+def _client_ip(request: Request) -> str:
+    # Render and most hosts terminate TLS in front, so the socket peer is the
+    # proxy and every caller would share one bucket. The first hop in
+    # X-Forwarded-For is the real client.
+    forwarded = request.headers.get("x-forwarded-for", "")
+    if forwarded.strip():
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _within_chat_rate_limit(ip: str) -> bool:
+    """Fixed one-minute window, per process. Good enough for one small
+    instance; a second instance would need shared state, which is not worth
+    a Redis for a free-tier chat box."""
+    now = time.monotonic()
+    with _chat_hits_lock:
+        recent = [t for t in _chat_hits.get(ip, ()) if now - t < 60]
+        if len(recent) >= CHAT_RATE_LIMIT_PER_MIN:
+            _chat_hits[ip] = recent
+            return False
+        recent.append(now)
+        _chat_hits[ip] = recent
+        return True
+
+
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=4000)
+
+
+class ChatRequest(BaseModel):
+    message: str = Field(min_length=1, max_length=4000)
+    # Prior turns, oldest first; the client resends them each time since the
+    # API itself keeps no session state.
+    history: list[ChatMessage] = Field(default_factory=list, max_length=20)
+
+
+class ChatResponse(BaseModel):
+    reply: str
 
 
 @app.get("/health")
@@ -74,5 +236,67 @@ def get_recommendations(
     skill: Optional[str] = Query(None, description="listening, speaking, reading, writing, grammar, pronunciation, vocabulary"),
     limit: int = Query(5, ge=1, le=20),
 ):
-    resources = [{**c, "type": "channel"} for c in CHANNELS] + [{**p, "type": "podcast"} for p in PODCASTS]
-    return _filter(resources, level, skill)[:limit]
+    return _recommendations(level, skill, limit)
+
+
+@app.get("/instructions")
+def get_instructions():
+    """The mentor's rules, for your own model's system prompt — the same text
+    POST /chat below uses."""
+    return {"instructions": load_chat_instructions()}
+
+
+@app.post("/chat", response_model=ChatResponse)
+def chat(req: ChatRequest, request: Request) -> ChatResponse:
+    """The mentor talking for itself: same rules and resource library as the
+    Skill and the universal prompt, but a free model on OpenRouter does the
+    talking instead of a human copy-pasting into a chat app."""
+    if not _within_chat_rate_limit(_client_ip(request)):
+        raise HTTPException(429, "chat rate limit exceeded — try again in a minute",
+                             headers={"Retry-After": "60"})
+
+    client = _chat_client_or_501()
+    messages: list[dict] = [{"role": "system", "content": load_chat_instructions()}]
+    messages.extend({"role": m.role, "content": m.content} for m in req.history)
+    messages.append({"role": "user", "content": req.message})
+
+    choice = None
+    try:
+        for _ in range(CHAT_MAX_TOOL_ROUNDS):
+            response = client.chat.completions.create(
+                model=CHAT_MODEL,
+                max_tokens=CHAT_MAX_TOKENS,
+                messages=messages,
+                tools=CHAT_TOOLS,
+            )
+            choice = response.choices[0]
+            if choice.finish_reason != "tool_calls" or not choice.message.tool_calls:
+                break
+            messages.append(choice.message.model_dump(exclude_none=True))
+            for call in choice.message.tool_calls:
+                try:
+                    args = json.loads(call.function.arguments or "{}")
+                except json.JSONDecodeError:
+                    content = f"error: malformed arguments — {call.function.arguments!r}"
+                else:
+                    content, _is_error = _run_chat_tool(call.function.name, args)
+                messages.append({"role": "tool", "tool_call_id": call.id, "content": content})
+        else:
+            raise HTTPException(504, "chat: too many tool calls in one turn")
+    except openai.AuthenticationError as exc:
+        raise HTTPException(500, "chat: HWS_OPENROUTER_API_KEY was rejected — check it's set correctly") from exc
+    except openai.NotFoundError as exc:
+        raise HTTPException(500, f"chat: model '{CHAT_MODEL}' not found on OpenRouter — check HWS_CHAT_MODEL") from exc
+    except openai.RateLimitError as exc:
+        raise HTTPException(429, "chat: upstream rate limit hit, try again shortly",
+                             headers={"Retry-After": "30"}) from exc
+    except openai.APIStatusError as exc:
+        raise HTTPException(502, f"chat: OpenRouter API error — {exc.message}") from exc
+    except openai.APIConnectionError as exc:
+        raise HTTPException(502, "chat: could not reach OpenRouter") from exc
+
+    if choice.finish_reason == "content_filter":
+        raise HTTPException(422, "the model declined to answer that")
+
+    reply = (choice.message.content or "").strip()
+    return ChatResponse(reply=reply or "(no response)")
