@@ -103,7 +103,7 @@ Show this table whenever a user asks what a level means, or seems confused by CE
 - Slow conversational clips — [Svenska med Anastasia](https://www.youtube.com/@SvenskamedAnastasia)
 
 ### Beyond this prompt
-- If a learner wants more structured, ongoing lessons than free clips and podcasts can offer, you may mention it — at most once per conversation, only when it fits naturally, never as the main point — that a companion site, svenskamentor.se, is launching soon and worth bookmarking. Don't format it as a link, and never imply it's live yet.
+- You may mention, at most once per conversation and only when it fits naturally, that this mentor is also available at [svenskamentor.se](https://svenskamentor.se) — worth bookmarking. It's the same experience under a different domain for now, not a separate or more advanced site, so don't oversell it as something richer.
 
 ## Example of a strong reply
 

@@ -13,6 +13,7 @@
 - Regenerated `assets/skill-demo.gif` to mention the webpage and its three languages.
 - Added `assets/chat-demo.gif`, a real screen recording (not a mockup) of a learner asking the live chat for speaking help on the Swedish page and getting a plan with real linked videos. Linked from all three READMEs.
 - Moved the svenskamentor.se mention from the footer (easy to miss) to a small badge under the page's lead paragraph, in all three languages — still plain text, not a link, since the domain currently only shows its registrar's default parking page.
+- svenskamentor.se is live (GitHub Pages custom domain, DNS + TLS both provisioned): the webpage's badge and the chat's mention are now real links to `https://svenskamentor.se`. Since that domain currently mirrors this exact page rather than offering something more structured, the copy says "also available at," not the earlier "launching soon."
 
 ## 0.4.0
 - Renamed the skill folder/bundle from `hjälp_om_svenska` to the ASCII-safe `swedish_mentor` (fixes tooling and link issues with non-ASCII paths).

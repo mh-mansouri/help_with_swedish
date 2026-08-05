@@ -88,6 +88,11 @@
     border: 1px solid var(--border);
     color: var(--muted);
     font-size: 0.82rem;
+    text-decoration: none;
+  }
+  .promo-badge:hover {
+    border-color: var(--accent);
+    color: var(--accent);
   }
   form {
     display: flex;
@@ -294,7 +299,7 @@
 
   <h1 id="h1">Hitta resurser för att lära dig svenska</h1>
   <p class="lead" id="lead">Chatta med mentorn för en direkt, personlig plan — eller hoppa över AI:n och välj bara en nivå och färdighet för en enkel lista med YouTube-kanaler och poddar.</p>
-  <p class="promo-badge" id="promoBadge">En egen sajt, svenskamentor.se, lanseras snart.</p>
+  <a class="promo-badge" id="promoBadge" href="https://svenskamentor.se" target="_blank" rel="noopener">Den här sidan finns även på svenskamentor.se</a>
 
   <h2 id="askH2">Fråga mentorn</h2>
   <div class="chat" id="chat">
@@ -383,7 +388,7 @@ const I18N = {
     metaDescription: "Chat live with a Swedish learning mentor, or skip the AI and pick your level and skill for YouTube and podcast recommendations. No sign-up.",
     h1: "Find Swedish learning resources",
     lead: "Chat with the mentor for a live, personalized plan — or skip the AI and just pick a level and skill for a plain list of YouTube channels and podcasts.",
-    promoBadge: "A dedicated companion site, svenskamentor.se, is launching soon.",
+    promoBadge: "This page is also available at svenskamentor.se",
     askH2: "Ask the mentor",
     browseH2: "Or browse without chat",
     chatPlaceholder: "e.g. I'm A2 and want to improve my speaking before a trip to Sweden",
@@ -420,7 +425,7 @@ const I18N = {
     metaDescription: "Chatta direkt med en mentor för svenska, eller hoppa över AI:n och välj nivå och färdighet för rekommendationer på YouTube och poddar. Inget konto.",
     h1: "Hitta resurser för att lära dig svenska",
     lead: "Chatta med mentorn för en direkt, personlig plan — eller hoppa över AI:n och välj bara en nivå och färdighet för en enkel lista med YouTube-kanaler och poddar.",
-    promoBadge: "En egen sajt, svenskamentor.se, lanseras snart.",
+    promoBadge: "Den här sidan finns även på svenskamentor.se",
     askH2: "Fråga mentorn",
     browseH2: "Eller bläddra utan chatt",
     chatPlaceholder: "t.ex. jag är A2 och vill förbättra mitt tal inför en resa till Sverige",
@@ -457,7 +462,7 @@ const I18N = {
     metaDescription: "با یک مربی زبان سوئدی به‌صورت زنده چت کنید، یا هوش مصنوعی را نادیده بگیرید و سطح و مهارت خود را برای پیشنهادهای یوتیوب و پادکست انتخاب کنید. بدون ثبت‌نام.",
     h1: "منابع یادگیری سوئدی را پیدا کنید",
     lead: "با مربی چت کنید تا یک برنامه زنده و شخصی‌سازی‌شده بگیرید — یا هوش مصنوعی را نادیده بگیرید و فقط سطح و مهارت را انتخاب کنید تا یک لیست ساده از کانال‌های یوتیوب و پادکست‌ها دریافت کنید.",
-    promoBadge: "یک سایت اختصاصی، svenskamentor.se، به‌زودی راه‌اندازی می‌شود.",
+    promoBadge: "این صفحه همچنین در svenskamentor.se در دسترس است",
     askH2: "از مربی بپرسید",
     browseH2: "یا بدون چت مرور کنید",
     chatPlaceholder: "مثلاً سطح من A2 است و می‌خواهم پیش از سفر به سوئد صحبت‌کردنم را تقویت کنم",
