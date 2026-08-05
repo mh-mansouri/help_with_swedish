@@ -354,8 +354,8 @@ def chat(req: ChatRequest, request: Request) -> ChatResponse:
         # (e.g. an invalid model slug) — logged for the operator, not relayed
         # to the caller, so a misconfigured secret can't leak through here.
         logging.getLogger("hws.chat").error("OpenRouter API error (%s): %s", exc.status_code, exc.message)
-        raise HTTPException(502, "chat: OpenRouter API error — check the server logs and "
-                                  "HWS_CHAT_MODEL/HWS_CHAT_FALLBACK_MODEL") from exc
+        raise HTTPException(502, f"chat: OpenRouter API error (upstream status {exc.status_code}) — "
+                                  "check the server logs and HWS_CHAT_MODEL/HWS_CHAT_FALLBACK_MODEL") from exc
     except openai.APIConnectionError as exc:
         raise HTTPException(502, "chat: could not reach OpenRouter") from exc
 
