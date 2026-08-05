@@ -79,6 +79,16 @@
     color: var(--muted);
     margin-top: 0;
   }
+  .promo-badge {
+    display: inline-block;
+    margin: 0 0 1.1rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
   form {
     display: flex;
     flex-wrap: wrap;
@@ -283,7 +293,8 @@
   </div>
 
   <h1 id="h1">Hitta resurser för att lära dig svenska</h1>
-  <p class="lead" id="lead">Välj en nivå och en färdighet. Inget konto, ingen AI-chatt — bara en lista med YouTube-kanaler och poddar.</p>
+  <p class="lead" id="lead">Chatta med mentorn för en direkt, personlig plan — eller hoppa över AI:n och välj bara en nivå och färdighet för en enkel lista med YouTube-kanaler och poddar.</p>
+  <p class="promo-badge" id="promoBadge">En egen sajt, svenskamentor.se, lanseras snart.</p>
 
   <h2 id="askH2">Fråga mentorn</h2>
   <div class="chat" id="chat">
@@ -372,6 +383,7 @@ const I18N = {
     metaDescription: "Chat live with a Swedish learning mentor, or skip the AI and pick your level and skill for YouTube and podcast recommendations. No sign-up.",
     h1: "Find Swedish learning resources",
     lead: "Chat with the mentor for a live, personalized plan — or skip the AI and just pick a level and skill for a plain list of YouTube channels and podcasts.",
+    promoBadge: "A dedicated companion site, svenskamentor.se, is launching soon.",
     askH2: "Ask the mentor",
     browseH2: "Or browse without chat",
     chatPlaceholder: "e.g. I'm A2 and want to improve my speaking before a trip to Sweden",
@@ -399,7 +411,7 @@ const I18N = {
     footerApiLink: "Help with Swedish API",
     footerMid: ", also usable as a ",
     footerSkillLink: "Claude Skill or copy-paste prompt",
-    footerPost: ". Runs on a free instance, so the first request after a while can take up to a minute to wake up. A dedicated companion site, svenskamentor.se, is launching soon.",
+    footerPost: ". Runs on a free instance, so the first request after a while can take up to a minute to wake up.",
   },
   sv: {
     dir: "ltr",
@@ -408,6 +420,7 @@ const I18N = {
     metaDescription: "Chatta direkt med en mentor för svenska, eller hoppa över AI:n och välj nivå och färdighet för rekommendationer på YouTube och poddar. Inget konto.",
     h1: "Hitta resurser för att lära dig svenska",
     lead: "Chatta med mentorn för en direkt, personlig plan — eller hoppa över AI:n och välj bara en nivå och färdighet för en enkel lista med YouTube-kanaler och poddar.",
+    promoBadge: "En egen sajt, svenskamentor.se, lanseras snart.",
     askH2: "Fråga mentorn",
     browseH2: "Eller bläddra utan chatt",
     chatPlaceholder: "t.ex. jag är A2 och vill förbättra mitt tal inför en resa till Sverige",
@@ -435,7 +448,7 @@ const I18N = {
     footerApiLink: "Help with Swedish API",
     footerMid: ", som också går att använda som en ",
     footerSkillLink: "Claude Skill eller copy-paste-prompt",
-    footerPost: ". Körs på en gratisinstans, så det första anropet efter ett tag kan ta upp till en minut. En egen sajt, svenskamentor.se, lanseras snart.",
+    footerPost: ". Körs på en gratisinstans, så det första anropet efter ett tag kan ta upp till en minut.",
   },
   fa: {
     dir: "rtl",
@@ -444,6 +457,7 @@ const I18N = {
     metaDescription: "با یک مربی زبان سوئدی به‌صورت زنده چت کنید، یا هوش مصنوعی را نادیده بگیرید و سطح و مهارت خود را برای پیشنهادهای یوتیوب و پادکست انتخاب کنید. بدون ثبت‌نام.",
     h1: "منابع یادگیری سوئدی را پیدا کنید",
     lead: "با مربی چت کنید تا یک برنامه زنده و شخصی‌سازی‌شده بگیرید — یا هوش مصنوعی را نادیده بگیرید و فقط سطح و مهارت را انتخاب کنید تا یک لیست ساده از کانال‌های یوتیوب و پادکست‌ها دریافت کنید.",
+    promoBadge: "یک سایت اختصاصی، svenskamentor.se، به‌زودی راه‌اندازی می‌شود.",
     askH2: "از مربی بپرسید",
     browseH2: "یا بدون چت مرور کنید",
     chatPlaceholder: "مثلاً سطح من A2 است و می‌خواهم پیش از سفر به سوئد صحبت‌کردنم را تقویت کنم",
@@ -471,13 +485,14 @@ const I18N = {
     footerApiLink: "Help with Swedish API",
     footerMid: " پشتیبانی می‌شود که همچنین به‌صورت ",
     footerSkillLink: "Claude Skill یا پرامپت کپی-پیست",
-    footerPost: " قابل استفاده است. روی نسخه رایگان اجرا می‌شود، بنابراین اولین درخواست بعد از مدتی ممکن است تا یک دقیقه طول بکشد. یک سایت اختصاصی، svenskamentor.se، به‌زودی راه‌اندازی می‌شود.",
+    footerPost: " قابل استفاده است. روی نسخه رایگان اجرا می‌شود، بنابراین اولین درخواست بعد از مدتی ممکن است تا یک دقیقه طول بکشد.",
   },
 };
 
 const langButtons = document.querySelectorAll(".lang-switch button");
 const h1El = document.getElementById("h1");
 const leadEl = document.getElementById("lead");
+const promoBadgeEl = document.getElementById("promoBadge");
 const askH2El = document.getElementById("askH2");
 const browseH2El = document.getElementById("browseH2");
 const chatLogEl = document.getElementById("chatLog");
@@ -688,6 +703,7 @@ function applyLanguage(lang) {
 
   h1El.textContent = t.h1;
   leadEl.textContent = t.lead;
+  promoBadgeEl.textContent = t.promoBadge;
   askH2El.textContent = t.askH2;
   browseH2El.textContent = t.browseH2;
   chatInputEl.placeholder = t.chatPlaceholder;
