@@ -87,7 +87,7 @@ Samma rekommendationer finns också som ett REST API, driftsatt på Render:
 - Bas-URL: https://help-with-swedish-api.onrender.com
 - Interaktiv dokumentation: https://help-with-swedish-api.onrender.com/docs
 
-Körs på en gratisinstans, så den stängs av vid inaktivitet — första anropet efter ett tag kan ta ~50 sekunder. Innehåller `POST /chat`, mentorn som talar för sig själv via en kostnadsfri modell (Googles Gemma 4 31B) på [OpenRouter](https://openrouter.ai) — avstängd tills en driftsättning sätter `HWS_OPENROUTER_API_KEY` (ett projekt-prefixat namn, inte OpenRouters egna generiska, så det aldrig krockar med en annan apps nyckel). Se [api/README.md](api/README.md) för endpoints och lokal installation.
+Körs på en gratisinstans, så den stängs av vid inaktivitet — första anropet efter ett tag kan ta ~50 sekunder. Innehåller `POST /chat`, mentorn som talar för sig själv via Claude Sonnet 5 på [OpenRouter](https://openrouter.ai), med en kostnadsfri modell (Googles Gemma 4 31B) som automatisk reserv om den primära modellen saknar kredit eller är hastighetsbegränsad — avstängd tills en driftsättning sätter `HWS_OPENROUTER_API_KEY` (ett projekt-prefixat namn, inte OpenRouters egna generiska, så det aldrig krockar med en annan apps nyckel). Se [api/README.md](api/README.md) för endpoints och lokal installation.
 
 ## Hur du använder den
 

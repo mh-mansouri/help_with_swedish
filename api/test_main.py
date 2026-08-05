@@ -1,5 +1,8 @@
 import json
 
+import httpx
+import openai
+import pytest
 from fastapi.testclient import TestClient
 
 import main
@@ -72,14 +75,64 @@ def test_chat_off_without_api_key():
     assert resp.status_code == 501
 
 
-def test_chat_model_is_an_openrouter_free_slug():
-    assert main.CHAT_MODEL.endswith(":free")
-    assert main.CHAT_MODEL.startswith("google/")
+def test_chat_model_matches_the_sample_with_a_free_fallback():
+    # Same model, same OpenRouter route, as the embedded-iot-mentor sample —
+    # billed, not free, hence the fallback below for when it's unavailable.
+    assert main.CHAT_MODEL == "anthropic/claude-sonnet-5"
+    assert main.CHAT_FALLBACK_MODEL.endswith(":free")
+    assert main.CHAT_FALLBACK_MODEL.startswith("google/")
 
 
 def test_chat_rejects_empty_message():
     resp = client.post("/chat", json={"message": ""})
     assert resp.status_code == 422
+
+
+class _FakeMessage:
+    def __init__(self, content):
+        self.content = content
+        self.tool_calls = None
+
+
+class _FakeChoice:
+    def __init__(self, content):
+        self.finish_reason = "stop"
+        self.message = _FakeMessage(content)
+
+
+def _connection_error() -> openai.APIConnectionError:
+    # No credit / rate limit / not found all need a fabricated httpx.Response;
+    # APIConnectionError only needs a request, so it's the simplest stand-in
+    # for "the primary model call failed" in these offline tests.
+    return openai.APIConnectionError(request=httpx.Request("POST", "https://openrouter.ai/api/v1/chat/completions"))
+
+
+def test_chat_completion_falls_back_when_primary_model_fails(monkeypatch):
+    calls = []
+
+    def fake_chat_turn(client, model, history_messages, user_message, cache):
+        calls.append(model)
+        if model == main.CHAT_MODEL:
+            raise _connection_error()
+        return _FakeChoice("fallback reply")
+
+    monkeypatch.setattr(main, "_chat_turn", fake_chat_turn)
+    model_used, choice = main._chat_completion(object(), [], {"role": "user", "content": "hej"})
+
+    assert calls == [main.CHAT_MODEL, main.CHAT_FALLBACK_MODEL]
+    assert model_used == main.CHAT_FALLBACK_MODEL
+    assert choice.message.content == "fallback reply"
+
+
+def test_chat_completion_reraises_when_fallback_disabled(monkeypatch):
+    monkeypatch.setattr(main, "_chat_turn", lambda *a, **k: (_ for _ in ()).throw(_connection_error()))
+    original_fallback = main.CHAT_FALLBACK_MODEL
+    main.CHAT_FALLBACK_MODEL = ""
+    try:
+        with pytest.raises(openai.APIConnectionError):
+            main._chat_completion(object(), [], {"role": "user", "content": "hej"})
+    finally:
+        main.CHAT_FALLBACK_MODEL = original_fallback
 
 
 def test_chat_tool_matches_the_recommendations_route():

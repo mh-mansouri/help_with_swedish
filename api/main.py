@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import re
 import threading
@@ -28,13 +29,21 @@ UNIVERSAL_PROMPT = HERE.parent / "universal-prompt.md"
 # another app's key of the same generic name on a shared host or dashboard.
 HWS_OPENROUTER_API_KEY = os.environ.get("HWS_OPENROUTER_API_KEY", "")
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
-# Gemma 4 31B on OpenRouter's free tier: no cost, tool calling, 256K context —
-# plenty for a few turns of level-appropriate recommendations.
-CHAT_MODEL = os.environ.get("HWS_CHAT_MODEL", "google/gemma-4-31b-it:free")
+# Claude Sonnet 5 — the same model, over the same OpenRouter route, as the
+# embedded-iot-mentor sample. Same per-token price as calling Anthropic
+# directly; billed, not free, so it needs real credit behind
+# HWS_OPENROUTER_API_KEY. Chosen over the free tier below for speed: OpenRouter's
+# free models share throttled capacity and can be noticeably slower to reply.
+CHAT_MODEL = os.environ.get("HWS_CHAT_MODEL", "anthropic/claude-sonnet-5")
+# Used automatically if the primary model has no credit, is rate-limited, or
+# is briefly unreachable — the free model this API used exclusively before
+# Claude was added. Set to "" to disable the fallback and let a primary
+# failure surface as an error instead of silently switching models.
+CHAT_FALLBACK_MODEL = os.environ.get("HWS_CHAT_FALLBACK_MODEL", "google/gemma-4-31b-it:free")
 CHAT_MAX_TOKENS = int(os.environ.get("HWS_CHAT_MAX_TOKENS", "1024"))
 CHAT_MAX_TOOL_ROUNDS = 4
-# Its own bucket, tighter than a plain GET: a chat turn calls a billed
-# (here, free-tier but still rate-limited) model, the other routes don't.
+# Its own bucket, tighter than a plain GET: a chat turn calls a billed model
+# by default (with a free model as fallback), the other routes don't.
 CHAT_RATE_LIMIT_PER_MIN = int(os.environ.get("HWS_CHAT_RATE_LIMIT_PER_MIN", "6"))
 
 app = FastAPI(
@@ -82,6 +91,24 @@ def load_chat_instructions() -> str:
     return match.group(1)
 
 
+def _system_message(cache: bool) -> dict:
+    text = load_chat_instructions()
+    if not cache:
+        return {"role": "system", "content": text}
+    # Anthropic-style prompt caching, passed through by OpenRouter: the
+    # instructions never change within a deployment's lifetime, so every
+    # caller after the first reads this from cache instead of paying full
+    # price for it again. Only meaningful for the primary (Claude) model.
+    return {
+        "role": "system",
+        "content": [{
+            "type": "text",
+            "text": text,
+            "cache_control": {"type": "ephemeral"},
+        }],
+    }
+
+
 _chat_client: openai.OpenAI | None = None
 
 
@@ -102,6 +129,57 @@ def _chat_client_or_501() -> openai.OpenAI:
             },
         )
     return _chat_client
+
+
+# Model-availability problems worth retrying on the fallback model: no credit
+# left, rate-limited, a slug that stopped resolving, or a brief network blip.
+# AuthenticationError is deliberately not here — a rejected key fails the
+# same way on both models, so retrying would just waste a call.
+_FALLBACK_ELIGIBLE = (
+    openai.NotFoundError,
+    openai.RateLimitError,
+    openai.APIStatusError,
+    openai.APIConnectionError,
+)
+
+
+def _chat_turn(client: openai.OpenAI, model: str, history_messages: list[dict], user_message: dict, cache: bool):
+    """Run one full tool-calling turn against a single model and return the
+    final choice. Raises the openai SDK's own exceptions on failure — the
+    caller decides whether that means falling back to another model."""
+    messages: list[dict] = [_system_message(cache), *history_messages, user_message]
+    for _ in range(CHAT_MAX_TOOL_ROUNDS):
+        response = client.chat.completions.create(
+            model=model,
+            max_tokens=CHAT_MAX_TOKENS,
+            messages=messages,
+            tools=CHAT_TOOLS,
+        )
+        choice = response.choices[0]
+        if choice.finish_reason != "tool_calls" or not choice.message.tool_calls:
+            return choice
+        messages.append(choice.message.model_dump(exclude_none=True))
+        for call in choice.message.tool_calls:
+            try:
+                args = json.loads(call.function.arguments or "{}")
+            except json.JSONDecodeError:
+                content = f"error: malformed arguments — {call.function.arguments!r}"
+            else:
+                content, _is_error = _run_chat_tool(call.function.name, args)
+            messages.append({"role": "tool", "tool_call_id": call.id, "content": content})
+    raise HTTPException(504, "chat: too many tool calls in one turn")
+
+
+def _chat_completion(client: openai.OpenAI, history_messages: list[dict], user_message: dict) -> tuple[str, object]:
+    """Try the primary model; on a model-availability problem, retry once on
+    the free fallback model rather than surfacing an error straight to the
+    caller. Returns (model actually used, final choice)."""
+    try:
+        return CHAT_MODEL, _chat_turn(client, CHAT_MODEL, history_messages, user_message, cache=True)
+    except _FALLBACK_ELIGIBLE:
+        if not CHAT_FALLBACK_MODEL:
+            raise
+        return CHAT_FALLBACK_MODEL, _chat_turn(client, CHAT_FALLBACK_MODEL, history_messages, user_message, cache=False)
 
 
 # Offered as a tool rather than left to the model's memory, so a live chat
@@ -249,44 +327,25 @@ def get_instructions():
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest, request: Request) -> ChatResponse:
     """The mentor talking for itself: same rules and resource library as the
-    Skill and the universal prompt, but a free model on OpenRouter does the
-    talking instead of a human copy-pasting into a chat app."""
+    Skill and the universal prompt, but a model on OpenRouter does the talking
+    instead of a human copy-pasting into a chat app. Tries the primary
+    (billed) model first and falls back to a free model if that one is
+    unavailable — see CHAT_MODEL / CHAT_FALLBACK_MODEL."""
     if not _within_chat_rate_limit(_client_ip(request)):
         raise HTTPException(429, "chat rate limit exceeded — try again in a minute",
                              headers={"Retry-After": "60"})
 
     client = _chat_client_or_501()
-    messages: list[dict] = [{"role": "system", "content": load_chat_instructions()}]
-    messages.extend({"role": m.role, "content": m.content} for m in req.history)
-    messages.append({"role": "user", "content": req.message})
+    history_messages = [{"role": m.role, "content": m.content} for m in req.history]
+    user_message = {"role": "user", "content": req.message}
 
-    choice = None
     try:
-        for _ in range(CHAT_MAX_TOOL_ROUNDS):
-            response = client.chat.completions.create(
-                model=CHAT_MODEL,
-                max_tokens=CHAT_MAX_TOKENS,
-                messages=messages,
-                tools=CHAT_TOOLS,
-            )
-            choice = response.choices[0]
-            if choice.finish_reason != "tool_calls" or not choice.message.tool_calls:
-                break
-            messages.append(choice.message.model_dump(exclude_none=True))
-            for call in choice.message.tool_calls:
-                try:
-                    args = json.loads(call.function.arguments or "{}")
-                except json.JSONDecodeError:
-                    content = f"error: malformed arguments — {call.function.arguments!r}"
-                else:
-                    content, _is_error = _run_chat_tool(call.function.name, args)
-                messages.append({"role": "tool", "tool_call_id": call.id, "content": content})
-        else:
-            raise HTTPException(504, "chat: too many tool calls in one turn")
+        model_used, choice = _chat_completion(client, history_messages, user_message)
     except openai.AuthenticationError as exc:
         raise HTTPException(500, "chat: HWS_OPENROUTER_API_KEY was rejected — check it's set correctly") from exc
     except openai.NotFoundError as exc:
-        raise HTTPException(500, f"chat: model '{CHAT_MODEL}' not found on OpenRouter — check HWS_CHAT_MODEL") from exc
+        raise HTTPException(500, "chat: no configured model resolved on OpenRouter — "
+                                  "check HWS_CHAT_MODEL and HWS_CHAT_FALLBACK_MODEL") from exc
     except openai.RateLimitError as exc:
         raise HTTPException(429, "chat: upstream rate limit hit, try again shortly",
                              headers={"Retry-After": "30"}) from exc
@@ -294,6 +353,11 @@ def chat(req: ChatRequest, request: Request) -> ChatResponse:
         raise HTTPException(502, f"chat: OpenRouter API error — {exc.message}") from exc
     except openai.APIConnectionError as exc:
         raise HTTPException(502, "chat: could not reach OpenRouter") from exc
+
+    if model_used != CHAT_MODEL:
+        logging.getLogger("hws.chat").warning(
+            "primary model %s unavailable, served via fallback %s", CHAT_MODEL, model_used,
+        )
 
     if choice.finish_reason == "content_filter":
         raise HTTPException(422, "the model declined to answer that")
