@@ -32,7 +32,9 @@ Vill du slippa installera en Skill eller klistra in en prompt? Webbsidan har en 
 - Live: https://mh-mansouri.github.io/help_with_swedish/
 - Eller ladda ner [docs/index.html](docs/index.html) och öppna den i valfri webbläsare — ingen server, ingen installation, inget konto.
 
-Både chatten och den enkla listan anropar samma [Live API](#live-api) som beskrivs nedan, så resultaten matchar det som skillen och copy-paste-prompten rekommenderar. Chatten drivs av en kostnadsfri modell via OpenRouter — se [`POST /chat`](api/README.md#post-chat) för hur den är kopplad och hur du kör din egen instans.
+![Demo-GIF av chatten: en elev ber om hjälp med att prata svenska och får en plan med riktiga länkade videor](assets/chat-demo.gif)
+
+Både chatten och den enkla listan anropar samma [Live API](#live-api) som beskrivs nedan, så resultaten matchar det som skillen och copy-paste-prompten rekommenderar. Chatten körs på OpenRouter med en kostnadsfri reserv om den primära modellen inte är tillgänglig — se [`POST /chat`](api/README.md#post-chat) för hur den är kopplad och hur du kör din egen instans.
 
 ## Installera som en permanent Claude Skill
 
