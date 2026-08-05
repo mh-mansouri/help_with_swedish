@@ -143,11 +143,32 @@ _FALLBACK_ELIGIBLE = (
 )
 
 
-def _chat_turn(client: openai.OpenAI, model: str, history_messages: list[dict], user_message: dict, cache: bool):
+def _chat_turn(
+    client: openai.OpenAI,
+    model: str,
+    history_messages: list[dict],
+    user_message: dict,
+    cache: bool,
+    lang_hint: Optional[str] = None,
+):
     """Run one full tool-calling turn against a single model and return the
     final choice. Raises the openai SDK's own exceptions on failure — the
     caller decides whether that means falling back to another model."""
-    messages: list[dict] = [_system_message(cache), *history_messages, user_message]
+    messages: list[dict] = [_system_message(cache)]
+    if lang_hint:
+        # A separate, uncached message rather than folded into the (cached)
+        # system prompt above, so this per-request hint never invalidates
+        # that cache — only this small bit is uncached each time.
+        messages.append({
+            "role": "system",
+            "content": (
+                f"The visitor's webpage is currently set to {lang_hint}. Treat that as a "
+                "strong default for which language to reply in, but still adapt if their "
+                "own words or an explicit request clearly indicate something else."
+            ),
+        })
+    messages.extend(history_messages)
+    messages.append(user_message)
     for _ in range(CHAT_MAX_TOOL_ROUNDS):
         response = client.chat.completions.create(
             model=model,
@@ -170,16 +191,23 @@ def _chat_turn(client: openai.OpenAI, model: str, history_messages: list[dict], 
     raise HTTPException(504, "chat: too many tool calls in one turn")
 
 
-def _chat_completion(client: openai.OpenAI, history_messages: list[dict], user_message: dict) -> tuple[str, object]:
+def _chat_completion(
+    client: openai.OpenAI,
+    history_messages: list[dict],
+    user_message: dict,
+    lang_hint: Optional[str] = None,
+) -> tuple[str, object]:
     """Try the primary model; on a model-availability problem, retry once on
     the free fallback model rather than surfacing an error straight to the
     caller. Returns (model actually used, final choice)."""
     try:
-        return CHAT_MODEL, _chat_turn(client, CHAT_MODEL, history_messages, user_message, cache=True)
+        return CHAT_MODEL, _chat_turn(client, CHAT_MODEL, history_messages, user_message, cache=True, lang_hint=lang_hint)
     except _FALLBACK_ELIGIBLE:
         if not CHAT_FALLBACK_MODEL:
             raise
-        return CHAT_FALLBACK_MODEL, _chat_turn(client, CHAT_FALLBACK_MODEL, history_messages, user_message, cache=False)
+        return CHAT_FALLBACK_MODEL, _chat_turn(
+            client, CHAT_FALLBACK_MODEL, history_messages, user_message, cache=False, lang_hint=lang_hint,
+        )
 
 
 # Offered as a tool rather than left to the model's memory, so a live chat
@@ -266,6 +294,16 @@ class ChatRequest(BaseModel):
     # Prior turns, oldest first; the client resends them each time since the
     # API itself keeps no session state.
     history: list[ChatMessage] = Field(default_factory=list, max_length=20)
+    # The webpage's currently selected UI language ("sv"/"en"/"fa"), if the
+    # caller is that page. A much stronger signal than guessing from a short
+    # first message like "Hej!" alone. Optional; unrecognized values are
+    # ignored rather than rejected, so a future UI language needs no API change.
+    lang: Optional[str] = Field(None, max_length=8)
+
+
+# Spelled out rather than left as a code, so the hint reads unambiguously to
+# the model — "sv" alone risks being read as part of the message, not a signal.
+CHAT_UI_LANGS = {"sv": "Swedish", "en": "English", "fa": "Persian"}
 
 
 class ChatResponse(BaseModel):
@@ -338,9 +376,10 @@ def chat(req: ChatRequest, request: Request) -> ChatResponse:
     client = _chat_client_or_501()
     history_messages = [{"role": m.role, "content": m.content} for m in req.history]
     user_message = {"role": "user", "content": req.message}
+    lang_hint = CHAT_UI_LANGS.get((req.lang or "").lower())
 
     try:
-        model_used, choice = _chat_completion(client, history_messages, user_message)
+        model_used, choice = _chat_completion(client, history_messages, user_message, lang_hint)
     except openai.AuthenticationError as exc:
         raise HTTPException(500, "chat: HWS_OPENROUTER_API_KEY was rejected — check it's set correctly") from exc
     except openai.NotFoundError as exc:

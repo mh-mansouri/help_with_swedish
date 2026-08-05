@@ -8,6 +8,7 @@
 - The mentor may now mention, at most once per conversation and only when it fits, that a companion site (svenskamentor.se) is launching soon — never as a link, never implying it's live yet.
 - Added CI (`.github/workflows/ci.yml`): runs the API test suite on every push/PR, and a weekly job that checks every recommended channel/podcast link still resolves (`scripts/check_links.py`).
 - The webpage now always opens in Swedish for a new visitor instead of auto-detecting the browser's language — this is a Swedish-learning page first. A language switched manually is still remembered via localStorage and wins on the next visit.
+- Fixed the chat replying in English on the Swedish page even when the visitor wrote in Swedish: a short first message like "Hej!" alone wasn't a reliable enough signal. The webpage now sends its selected UI language to `POST /chat` (new optional `lang` field), passed to the model as a separate, uncached system note (so it never disturbs Claude's prompt cache on the main instructions) — the Skill, universal prompt, and README's Language rules now say to treat it as a strong default.
 - Added Open Graph / Twitter Card meta tags to the webpage, updated per language, so sharing the link shows a proper title/description/preview image.
 - Regenerated `assets/skill-demo.gif` to mention the webpage and its three languages.
 

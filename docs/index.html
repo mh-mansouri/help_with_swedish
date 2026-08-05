@@ -528,7 +528,7 @@ async function sendChatMessage(message) {
     const res = await fetch(API_BASE + "/chat", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ message: message, history: chatHistory }),
+      body: JSON.stringify({ message: message, history: chatHistory, lang: currentLang }),
     });
     if (res.status === 501) {
       pending.remove();

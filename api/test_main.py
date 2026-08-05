@@ -110,7 +110,7 @@ def _connection_error() -> openai.APIConnectionError:
 def test_chat_completion_falls_back_when_primary_model_fails(monkeypatch):
     calls = []
 
-    def fake_chat_turn(client, model, history_messages, user_message, cache):
+    def fake_chat_turn(client, model, history_messages, user_message, cache, lang_hint=None):
         calls.append(model)
         if model == main.CHAT_MODEL:
             raise _connection_error()
@@ -122,6 +122,43 @@ def test_chat_completion_falls_back_when_primary_model_fails(monkeypatch):
     assert calls == [main.CHAT_MODEL, main.CHAT_FALLBACK_MODEL]
     assert model_used == main.CHAT_FALLBACK_MODEL
     assert choice.message.content == "fallback reply"
+
+
+class _FakeCompletions:
+    def __init__(self):
+        self.calls = []
+
+    def create(self, **kwargs):
+        self.calls.append(kwargs)
+        return type("Resp", (), {"choices": [_FakeChoice("ok")]})()
+
+
+class _FakeClient:
+    def __init__(self):
+        self.chat = type("Chat", (), {"completions": _FakeCompletions()})()
+
+
+def test_chat_ui_langs_cover_the_pages_three_languages():
+    assert main.CHAT_UI_LANGS == {"sv": "Swedish", "en": "English", "fa": "Persian"}
+
+
+def test_chat_turn_sends_language_hint_as_its_own_uncached_message():
+    fake = _FakeClient()
+    main._chat_turn(fake, main.CHAT_MODEL, [], {"role": "user", "content": "Hej!"}, cache=True, lang_hint="Swedish")
+    messages = fake.chat.completions.calls[0]["messages"]
+    system_messages = [m for m in messages if m["role"] == "system"]
+    assert len(system_messages) == 2
+    assert "Swedish" in system_messages[1]["content"]
+    # A plain string, not the cached content-block shape the first (real
+    # instructions) system message uses — the hint must never touch the cache.
+    assert isinstance(system_messages[1]["content"], str)
+
+
+def test_chat_turn_omits_language_hint_when_none_given():
+    fake = _FakeClient()
+    main._chat_turn(fake, main.CHAT_MODEL, [], {"role": "user", "content": "Hej!"}, cache=True)
+    messages = fake.chat.completions.calls[0]["messages"]
+    assert len([m for m in messages if m["role"] == "system"]) == 1
 
 
 def test_chat_completion_reraises_when_fallback_disabled(monkeypatch):
