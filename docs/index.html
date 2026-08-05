@@ -752,18 +752,11 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-function detectBrowserLang() {
-  const candidates = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
-  for (const raw of candidates) {
-    if (!raw) continue;
-    const code = raw.slice(0, 2).toLowerCase();
-    if (I18N[code]) return code;
-  }
-  return "sv";
-}
-
+// Swedish first for every new visitor, on purpose — this is a Swedish-learning
+// page — regardless of browser language. A choice made with the switcher above
+// is still remembered via localStorage and wins on the next visit.
 const savedLang = localStorage.getItem(LANG_KEY);
-applyLanguage(savedLang && I18N[savedLang] ? savedLang : detectBrowserLang());
+applyLanguage(savedLang && I18N[savedLang] ? savedLang : "sv");
 form.dispatchEvent(new Event("submit"));
 </script>
 </body>
