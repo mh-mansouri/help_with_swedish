@@ -130,8 +130,10 @@ python package_skill.py --install --skills-dir <path-to-skills-folder>
 - swedish_mentor/SKILL.md — دستورالعمل‌های Skill
 - swedish_mentor/references/ — فایل‌های مرجع با کانال‌ها، پادکست‌ها و مثال‌ها
 - swedish_mentor.skill — بسته‌ی آماده‌ی Skill
+- universal-prompt.md — نسخه کپی-پیست متنی برای هر چت هوش مصنوعی
 - assets/install-steps/ — اسکرین‌شات‌های راهنمای نصب
 - docs/index.html — صفحه وب مستقل که مستقیماً با API زنده ارتباط برقرار می‌کند
+- docs/CNAME — دامنه اختصاصی (svenskamentor.se) که GitHub Pages صفحه وب را روی آن نمایش می‌دهد
 - scripts/check_links.py — بررسی می‌کند که لینک هر پیشنهاد هنوز کار می‌کند
 - .github/workflows/ci.yml — تست‌ها و بررسی لینک‌ها را در push/PR/هر هفته اجرا می‌کند
 - package_skill.py — بسته را می‌سازد

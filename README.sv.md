@@ -130,8 +130,10 @@ Ett starkt exempel ser ut så här:
 - swedish_mentor/SKILL.md — instruktionerna för skillen
 - swedish_mentor/references/ — referensfiler med kanaler, poddar och exempel
 - swedish_mentor.skill — den paketerade skillfilen
+- universal-prompt.md — copy-paste-version för valfri AI-chatt
 - assets/install-steps/ — skärmdumpar för installationsguiden
 - docs/index.html — fristående webbsida som anropar det live API:et direkt
+- docs/CNAME — den anpassade domänen (svenskamentor.se) som GitHub Pages visar webbsidan på
 - scripts/check_links.py — kontrollerar att varje rekommendations länk fortfarande fungerar
 - .github/workflows/ci.yml — kör tester och länkkontroll vid push/PR/varje vecka
 - package_skill.py — bygger paketet
