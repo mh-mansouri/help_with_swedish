@@ -12,6 +12,7 @@
 - Added Open Graph / Twitter Card meta tags to the webpage, updated per language, so sharing the link shows a proper title/description/preview image.
 - Regenerated `assets/skill-demo.gif` to mention the webpage and its three languages.
 - Added `assets/chat-demo.gif`, a real screen recording (not a mockup) of a learner asking the live chat for speaking help on the Swedish page and getting a plan with real linked videos. Linked from all three READMEs.
+- The webpage's footer now mentions, in all three languages, that a dedicated companion site (svenskamentor.se) is launching soon — plain text, not a link, since it isn't live yet.
 
 ## 0.4.0
 - Renamed the skill folder/bundle from `hjälp_om_svenska` to the ASCII-safe `swedish_mentor` (fixes tooling and link issues with non-ASCII paths).
