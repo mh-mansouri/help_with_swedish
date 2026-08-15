@@ -132,8 +132,7 @@ Ett starkt exempel ser ut så här:
 - swedish_mentor.skill — den paketerade skillfilen
 - universal-prompt.md — copy-paste-version för valfri AI-chatt
 - assets/install-steps/ — skärmdumpar för installationsguiden
-- docs/index.html — fristående webbsida som anropar det live API:et direkt
-- docs/CNAME — den anpassade domänen (svenskamentor.se) som GitHub Pages visar webbsidan på
+- docs/index.html — fristående webbsida som anropar det live API:et direkt, publicerad på standard-adressen `mh-mansouri.github.io/help_with_swedish/` (ingen anpassad domän — svenskamentor.se tillhör den separata, privata produkt den grenades av till)
 - scripts/check_links.py — kontrollerar att varje rekommendations länk fortfarande fungerar
 - .github/workflows/ci.yml — kör tester och länkkontroll vid push/PR/varje vecka
 - package_skill.py — bygger paketet
