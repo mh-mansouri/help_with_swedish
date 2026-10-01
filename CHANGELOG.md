@@ -1,6 +1,11 @@
 # Changelog
 
 ## Unreleased
+- `POST /chat` now answers `451` to visitors from countries the model provider (Anthropic,
+  via OpenRouter) doesn't serve, read from Cloudflare's `CF-IPCountry` header that Render
+  sets. Without that header the check lets everyone through; following the provider's
+  regional rules is then up to whoever runs the deployment. See the API README's
+  **Regions** note. (2026-10-01)
 - Added live chat: `POST /chat` on the API, talking as the mentor via a model on OpenRouter, off until a deployment sets `HWS_OPENROUTER_API_KEY` (project-prefixed rather than OpenRouter's generic `OPENROUTER_API_KEY`, so it can't collide with another app's key on a shared host). The model gets a `get_recommendations` tool wired to `data.py` so it can only cite a real channel or podcast, never an invented one. New `GET /instructions` returns the same system prompt for your own model. The webpage gained a trilingual chat box that calls it, alongside the existing no-AI form.
 - Switched `/chat`'s primary model to Claude Sonnet 5 (`HWS_CHAT_MODEL`) — the same model, over the same OpenRouter route, as the embedded-iot-mentor sample, and noticeably faster than the free tier. It's billed, not free, so it needs real OpenRouter credit; the original free model (`google/gemma-4-31b-it:free`) is kept as `HWS_CHAT_FALLBACK_MODEL` and used automatically if the primary is out of credit, rate-limited, or briefly unreachable.
 - `/chat` no longer relays raw OpenRouter error text to the caller (it can echo back parts of the rejected request); the detail is logged server-side instead, with the upstream HTTP status still included in the response for quick diagnosis.
