@@ -209,3 +209,10 @@ def test_client_ip_prefers_forwarded_header():
         client = type("C", (), {"host": "10.0.0.1"})()
 
     assert main._client_ip(FakeRequest()) == "203.0.113.7"
+
+
+def test_chat_follows_the_providers_regions():
+    assert main._chat_country_allowed("SE") and main._chat_country_allowed(None)
+    assert not main._chat_country_allowed("IR") and not main._chat_country_allowed("T1")
+    resp = client.post("/chat", json={"message": "hej"}, headers={"cf-ipcountry": "IR"})
+    assert resp.status_code == 451
