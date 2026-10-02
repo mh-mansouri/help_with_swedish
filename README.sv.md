@@ -31,6 +31,7 @@ Vill du slippa installera en Skill eller klistra in en prompt? Webbsidan har en 
 
 - Live: https://mh-mansouri.github.io/help_with_swedish/
 - Eller ladda ner [docs/index.html](docs/index.html) och öppna den i valfri webbläsare — ingen server, ingen installation, inget konto.
+- Från samma utvecklare: [svenskamentor.se](https://svenskamentor.se), en fristående webbapp byggd på samma principer, med egen kod och på fem språk.
 
 ![Demo-GIF av chatten: en elev ber om hjälp med att prata svenska och får en plan med riktiga länkade videor](assets/chat-demo.gif)
 

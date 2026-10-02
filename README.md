@@ -120,6 +120,7 @@ Don't want to install a Skill or copy-paste a prompt? The webpage has its own li
 
 - Live: https://mh-mansouri.github.io/help_with_swedish/
 - Or download [docs/index.html](docs/index.html) and open it in any browser — no server, no install, no sign-up.
+- Also by the same author: [svenskamentor.se](https://svenskamentor.se), a separate web app built on the same principles, with its own code, in five languages.
 
 ![Chat demo GIF: a learner asks for speaking help on the Swedish page and gets a plan with real linked videos](assets/chat-demo.gif)
 
